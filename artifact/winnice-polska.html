@@ -1,0 +1,1140 @@
+<title>Winnice w Polsce — ужин и ночлег на винограднике</title>
+<style>
+:root{
+  --ground:#E4E8E1;
+  --surface:#F8F9F5;
+  --surface-2:#EDF0E9;
+  --ink:#151E19;
+  --ink-soft:#3A4A41;
+  --muted:#66766C;
+  --line:#C6CFC4;
+  --line-soft:#D6DDD3;
+  --accent:#6B3B63;
+  --accent-ink:#FFFFFF;
+  --accent-soft:#EFE2ED;
+  --gold:#A8781F;
+  --gold-soft:#F2E7CE;
+  --land:#DDE3D8;
+  --land-line:#96A594;
+  --water:#AFC4C9;
+  --water-line:#6F97A2;
+  --road:#C0A374;
+  --shadow:0 1px 2px rgba(21,30,25,.06),0 8px 28px rgba(21,30,25,.10);
+  --shadow-lift:0 2px 6px rgba(21,30,25,.10),0 18px 48px rgba(21,30,25,.18);
+  --f-display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua","Hoefler Text",Georgia,serif;
+  --f-body:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --f-data:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1512;
+    --surface:#171F1A;
+    --surface-2:#1E2822;
+    --ink:#E4EADF;
+    --ink-soft:#BDC8BE;
+    --muted:#8B9A8E;
+    --line:#2C3830;
+    --line-soft:#243029;
+    --accent:#C98CBF;
+    --accent-ink:#1A1017;
+    --accent-soft:#2E1F2C;
+    --gold:#DFB45E;
+    --gold-soft:#31281440;
+    --land:#1D2721;
+    --land-line:#44584A;
+    --water:#16262B;
+    --water-line:#3E626C;
+    --road:#6B5836;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.45);
+    --shadow-lift:0 2px 6px rgba(0,0,0,.5),0 18px 48px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1512;
+  --surface:#171F1A;
+  --surface-2:#1E2822;
+  --ink:#E4EADF;
+  --ink-soft:#BDC8BE;
+  --muted:#8B9A8E;
+  --line:#2C3830;
+  --line-soft:#243029;
+  --accent:#C98CBF;
+  --accent-ink:#1A1017;
+  --accent-soft:#2E1F2C;
+  --gold:#DFB45E;
+  --gold-soft:#31281440;
+  --land:#1D2721;
+  --land-line:#44584A;
+  --water:#16262B;
+  --water-line:#3E626C;
+  --road:#6B5836;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.45);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.5),0 18px 48px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html{height:100%}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--f-body);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  /* высоту дублируем и дополнительно фиксируем из JS: обёртка артефакта
+     не всегда даёт dvh ту же высоту, что и видимая область фрейма */
+  height:100vh;height:100dvh;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+h1,h2,h3{margin:0;font-family:var(--f-display);font-weight:600;text-wrap:balance;letter-spacing:-.01em}
+a{color:inherit}
+button{font:inherit;color:inherit}
+
+/* ---------- header ---------- */
+.topbar{
+  flex:0 0 auto;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:12px 20px 11px;background:var(--surface);border-bottom:1px solid var(--line);
+  z-index:20;
+}
+.topbar h1{font-size:19px;letter-spacing:-.015em}
+.topbar h1 .accent{color:var(--accent)}
+.tagline{font-size:12.5px;color:var(--muted);letter-spacing:.01em}
+.count{
+  margin-left:auto;font-family:var(--f-data);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap;
+}
+
+/* ---------- filters ---------- */
+.filters{
+  flex:0 0 auto;display:flex;gap:8px 22px;align-items:center;flex-wrap:wrap;
+  padding:9px 20px;background:var(--surface);border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none;
+}
+.fgroup{display:flex;gap:7px;align-items:center;flex-wrap:nowrap}
+.fgroup+.fgroup{padding-left:22px;border-left:1px solid var(--line-soft)}
+.filters::-webkit-scrollbar{display:none}
+.flabel{
+  font-family:var(--f-data);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin-right:2px;white-space:nowrap;
+}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  padding:5px 12px 5px 9px;border:1px solid var(--line);border-radius:999px;
+  cursor:pointer;font-size:12.5px;transition:all .16s;
+}
+.chip .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.chip .mark{
+  font-family:var(--f-data);font-size:11px;width:11px;text-align:center;flex:0 0 auto;
+}
+/* ВКЛЮЧЁН: залитый фон, галочка */
+.chip[aria-pressed="true"]{
+  background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:600;
+}
+.chip[aria-pressed="true"] .mark{color:var(--accent)}
+.chip[aria-pressed="true"] .mark::before{content:"✓"}
+/* ВЫКЛЮЧЕН: пусто, пунктир, приглушённо, крестик */
+.chip[aria-pressed="false"]{
+  background:transparent;border-style:dashed;border-color:var(--line);
+  color:var(--muted);opacity:.65;
+}
+.chip[aria-pressed="false"] .dot{opacity:.35}
+.chip[aria-pressed="false"] .mark::before{content:"✕"}
+.chip:hover{border-color:var(--accent);opacity:1}
+.chip:focus-visible,.lrow:focus-visible,.btn:focus-visible,.iconbtn:focus-visible,.backbtn:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;
+}
+.d-full{background:#2F7D5B}.d-part{background:#B8862B}.d-self{background:#8892A8}
+
+/* ---------- shell ---------- */
+.shell{flex:1 1 auto;display:flex;min-height:0;position:relative}
+
+/* ---------- map ---------- */
+.mapwrap{
+  flex:1 1 auto;position:relative;min-width:0;background:var(--ground);
+  touch-action:none;overflow:hidden;
+}
+svg.map{width:100%;height:100%;display:block;cursor:grab}
+svg.map.dragging{cursor:grabbing}
+.sea{fill:var(--water);opacity:.55}
+.land{fill:var(--land)}
+.land-outline{fill:none;stroke:var(--land-line);stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.lake{fill:var(--water);opacity:.8}
+.road-case{fill:none;stroke:var(--land);stroke-width:5;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.road{fill:none;stroke:var(--road);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.river{fill:none;stroke:var(--water-line);stroke-width:1.1;vector-effect:non-scaling-stroke;stroke-linecap:round;opacity:.8}
+.river.big{stroke-width:2.1;opacity:1}
+.roadbadge rect{fill:var(--road)}
+.roadbadge text{
+  font-family:var(--f-data);font-size:9px;font-weight:600;fill:#20180C;
+  text-anchor:middle;dominant-baseline:central;
+}
+.city circle{fill:var(--land-line)}
+.city text{
+  font-family:var(--f-data);font-size:8.5px;fill:var(--muted);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.city.big text{font-size:10px;fill:var(--ink-soft);font-weight:600;letter-spacing:.03em}
+.city:not(.big){opacity:0;transition:opacity .25s}
+svg.map.zoomed .city:not(.big){opacity:1}
+.hilllabel{
+  font-family:var(--f-data);fill:var(--muted);opacity:.55;letter-spacing:.22em;
+  text-transform:uppercase;pointer-events:none;
+}
+.riverlabel{
+  font-family:var(--f-display);font-style:italic;fill:var(--water-line);opacity:.85;
+  letter-spacing:.03em;pointer-events:none;
+}
+
+/* маркеры-капли */
+.pin{cursor:pointer}
+.pin,.pin:focus{outline:none}
+.pinshadow{fill:#000;opacity:.16}
+.pin .halo{fill:var(--accent);opacity:0;transition:opacity .18s}
+.pinbody{stroke:var(--surface);stroke-width:2.2;transition:stroke .15s,stroke-width .15s}
+.pinhole{fill:var(--surface)}
+.pin .num{
+  font-family:var(--f-data);font-size:10px;font-weight:700;
+  text-anchor:middle;dominant-baseline:central;pointer-events:none;
+}
+.pin .pinlabel{
+  font-family:var(--f-body);font-size:10.5px;font-weight:600;fill:var(--ink);
+  paint-order:stroke;stroke:var(--land);stroke-width:3.2px;stroke-linejoin:round;
+  pointer-events:none;opacity:.92;
+}
+.pin:hover .halo,.pin.active .halo,.pin:focus-visible .halo{opacity:.22}
+.pin.active .halo{opacity:.3}
+.pin.active .pinbody,.pin:focus-visible .pinbody{stroke:var(--accent);stroke-width:3.4}
+.pin.active .pinlabel{opacity:1}
+.pin.dim{opacity:.14;pointer-events:none}
+
+/* карточка-подсказка у маркера */
+.maptip{
+  position:absolute;z-index:8;pointer-events:none;transform:translate(-50%,-100%);
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:10px 13px;box-shadow:var(--shadow-lift);
+  display:none;flex-direction:column;gap:3px;min-width:180px;max-width:260px;
+}
+.maptip.on{display:flex}
+.maptip .t-name{font-family:var(--f-display);font-size:14.5px;font-weight:600;line-height:1.2}
+.maptip .t-meta{font-size:11.5px;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
+.maptip .t-place{font-size:11px;color:var(--muted)}
+.maptip .t-cta{
+  font-family:var(--f-data);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--accent);margin-top:4px;
+}
+.maptip .sq{width:7px;height:7px;border-radius:2px;flex:0 0 auto}
+@media (hover:none){.maptip{display:none !important}}
+
+.mapctl{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.iconbtn{
+  width:34px;height:34px;display:grid;place-items:center;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  box-shadow:var(--shadow);font-size:15px;line-height:1;
+}
+.iconbtn:hover{background:var(--surface-2)}
+.iconbtn.wide{width:auto;padding:0 11px;font-size:11.5px;font-family:var(--f-data);letter-spacing:.04em}
+.maphint{
+  position:absolute;left:14px;bottom:14px;font-family:var(--f-data);font-size:10px;
+  letter-spacing:.05em;color:var(--muted);text-transform:uppercase;pointer-events:none;
+}
+
+/* ---------- panel ---------- */
+.panel{
+  flex:0 0 400px;display:flex;flex-direction:column;min-height:0;
+  background:var(--surface);border-left:1px solid var(--line);z-index:15;
+}
+.grabber{display:none}
+.panelhead{
+  flex:0 0 auto;padding:14px 18px 11px;border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;gap:10px;
+}
+.panelhead h2{font-size:15px}
+.panelhead .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.backbtn{
+  display:none;align-items:center;gap:6px;background:transparent;border:1px solid var(--line);
+  border-radius:999px;padding:5px 12px 5px 9px;cursor:pointer;font-size:12.5px;white-space:nowrap;
+}
+.backbtn:hover{background:var(--surface-2)}
+body.detail .backbtn{display:inline-flex}
+.panelbody{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+/* list */
+.list{display:flex;flex-direction:column}
+.lrow{
+  display:grid;grid-template-columns:26px 1fr auto;gap:10px 12px;align-items:start;
+  width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line-soft);
+  padding:12px 18px;cursor:pointer;transition:background .14s;
+}
+.lrow:hover,.lrow.hl{background:var(--surface-2)}
+.lrow.hl{box-shadow:inset 3px 0 0 var(--accent)}
+.lrow .idx{
+  font-family:var(--f-data);font-size:10.5px;color:var(--muted);padding-top:3px;
+  font-variant-numeric:tabular-nums;
+}
+.lrow .nm{font-family:var(--f-display);font-size:15px;font-weight:600;line-height:1.25}
+.lrow .mt{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.lrow .sq{width:7px;height:7px;border-radius:2px;flex:0 0 auto}
+.lrow .stay{color:var(--muted)}
+.lrow .rowprice{
+  font-family:var(--f-data);font-size:11px;color:var(--ink-soft);text-align:right;
+  white-space:nowrap;padding-top:3px;font-variant-numeric:tabular-nums;max-width:96px;
+}
+.lrow.hidden{display:none}
+
+/* detail */
+.detail{padding:0 0 40px}
+.dhero{padding:18px 18px 16px;border-bottom:1px solid var(--line-soft)}
+.eyebrow{
+  font-family:var(--f-data);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+}
+.dhero h2{font-size:23px;line-height:1.15;margin:7px 0 8px}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+  font-size:11.5px;font-family:var(--f-body);letter-spacing:0;text-transform:none;
+  border:1px solid var(--line);
+}
+.badge .sq{width:7px;height:7px;border-radius:2px}
+.lede{font-size:14px;color:var(--ink-soft);line-height:1.55;margin:0}
+.pricetag{
+  margin-top:13px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--surface-2);display:flex;flex-direction:column;gap:4px;
+}
+.pricetag .pv{
+  font-family:var(--f-data);font-size:14px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.pricetag .pn{font-size:12px;line-height:1.5;color:var(--muted)}
+
+.sec{padding:15px 18px;border-bottom:1px solid var(--line-soft)}
+.sec h3{
+  font-family:var(--f-data);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;margin-bottom:8px;
+}
+.sec p{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:13px}
+.facts dt{color:var(--muted);white-space:nowrap}
+.facts dd{margin:0;color:var(--ink-soft)}
+.price{font-family:var(--f-data);font-size:12.5px;font-variant-numeric:tabular-nums}
+
+.links{display:flex;flex-direction:column;gap:7px}
+.btn{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+  border:1px solid var(--line);background:var(--surface-2);text-decoration:none;
+  font-size:13.5px;transition:border-color .15s,background .15s,transform .12s;
+}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+.btn .ico{
+  width:26px;height:26px;flex:0 0 auto;display:grid;place-items:center;border-radius:7px;
+  background:var(--ground);font-size:13px;
+}
+.btn .txt{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.btn .txt b{font-weight:600}
+.btn .txt span{font-size:11.5px;color:var(--muted);word-break:break-word}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary .ico{background:rgba(255,255,255,.16)}
+.btn.primary .txt span{color:rgba(255,255,255,.75)}
+:root[data-theme="dark"] .btn.primary .txt span{color:rgba(26,16,23,.7)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary .txt span{color:rgba(26,16,23,.7)}}
+.btn .tel{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+.note{
+  margin:14px 18px 0;padding:11px 13px;border-left:2px solid var(--gold);
+  background:var(--gold-soft);font-size:12.5px;line-height:1.5;color:var(--ink-soft);border-radius:0 7px 7px 0;
+}
+.foot{
+  padding:14px 18px 0;font-size:11.5px;line-height:1.55;color:var(--muted);
+}
+.foot a{color:var(--muted)}
+
+/* ---------- mobile: bottom sheet ---------- */
+@media (max-width:880px){
+  body{overflow:hidden}
+  .topbar{padding:10px 14px 9px}
+  .topbar h1{font-size:17px}
+  .tagline{display:none}
+  .filters{padding:8px 14px;flex-wrap:nowrap;gap:8px 14px}
+  .fgroup+.fgroup{padding-left:14px}
+  .shell{display:block;position:relative}
+  .mapwrap{position:absolute;inset:0}
+  .panel{
+    position:absolute;left:0;right:0;bottom:0;top:auto;flex:none;
+    height:78%;border-left:0;border-top:1px solid var(--line);
+    border-radius:16px 16px 0 0;box-shadow:var(--shadow-lift);
+    transform:translateY(calc(100% - 58px));
+    transition:transform .34s cubic-bezier(.32,.72,0,1);
+  }
+  body.sheet-open .panel{transform:translateY(0)}
+  .grabber{
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    padding:9px 0 0;cursor:pointer;flex:0 0 auto;background:transparent;border:0;width:100%;
+  }
+  .grabber .bar{width:38px;height:4px;border-radius:2px;background:var(--line)}
+  .grabber .peek{
+    font-family:var(--f-data);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);padding-bottom:2px;
+  }
+  body.sheet-open .grabber .peek{opacity:0;height:0;padding:0;overflow:hidden}
+  .panelhead{padding:10px 16px 10px}
+  .lrow,.sec,.dhero{padding-left:16px;padding-right:16px}
+  .maphint{display:none}
+  .mapctl{bottom:auto;top:12px;right:12px}
+  .count{font-size:10px}
+}
+@media (max-width:420px){
+  .topbar h1{font-size:15.5px}
+  .dhero h2{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+</style>
+
+<header class="topbar">
+  <h1>Kolacja i nocleg <span class="accent">w winnicy</span></h1>
+  <span class="tagline">12 польских виноделен, где можно поужинать и остаться на ночь</span>
+  <span class="count" id="count">12 мест</span>
+</header>
+
+<nav class="filters" aria-label="Фильтры">
+  <div class="fgroup">
+    <span class="flabel">Ужин</span>
+    <button class="chip" data-g="dine" data-f="full" aria-pressed="true"><span class="mark"></span><span class="dot d-full"></span>Ресторан на месте</button>
+    <button class="chip" data-g="dine" data-f="part" aria-pressed="true"><span class="mark"></span><span class="dot d-part"></span>Ужин по заказу</button>
+    <button class="chip" data-g="dine" data-f="self" aria-pressed="true"><span class="mark"></span><span class="dot d-self"></span>Своя кухня / гриль</button>
+  </div>
+  <div class="fgroup">
+    <span class="flabel">Ночлег</span>
+    <button class="chip" data-g="stay" data-f="hotel" aria-pressed="true"><span class="mark"></span>Отель на месте</button>
+    <button class="chip" data-g="stay" data-f="rooms" aria-pressed="true"><span class="mark"></span>Комнаты у винодела</button>
+    <button class="chip" data-g="stay" data-f="house" aria-pressed="true"><span class="mark"></span>Домик / апартамент</button>
+  </div>
+</nav>
+
+<div class="shell">
+  <div class="mapwrap" id="mapwrap">
+    <svg class="map" id="map" role="application" aria-label="Карта Польши с винодельнями"></svg>
+    <div class="mapctl">
+      <button class="iconbtn" id="zin" aria-label="Приблизить">+</button>
+      <button class="iconbtn" id="zout" aria-label="Отдалить">−</button>
+      <button class="iconbtn wide" id="zreset" aria-label="Показать всю Польшу">Вся Польша</button>
+    </div>
+    <div class="maphint">Колесо — масштаб · перетаскивание — сдвиг · клик по точке — детали</div>
+  </div>
+
+  <aside class="panel" id="panel">
+    <button class="grabber" id="grabber" aria-label="Открыть или закрыть список">
+      <span class="bar"></span>
+      <span class="peek" id="peek">Список мест ↑</span>
+    </button>
+    <div class="panelhead">
+      <button class="backbtn" id="back">← К карте</button>
+      <div>
+        <h2 id="ptitle">Все виноградники</h2>
+        <div class="sub" id="psub">Нажмите точку на карте или строку в списке</div>
+      </div>
+    </div>
+    <div class="panelbody" id="pbody"></div>
+  </aside>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ ДАННЫЕ ============ */
+var PLACES = [
+ {n:1,name:"Winnica Maria Anna",region:"Подкарпатье",place:"Wyżne k. Czudca",lat:49.928,lon:21.836,dine:"full",stay:"hotel",price:"от 305 zł/ночь",pnote:"Booking, 9–11.10.2026: номер на двоих 610 zł за 2 ночи (≈305 zł/ночь), домик 798 zł за 2 ночи (≈400 zł), вилла-апартамент 90 м² 1774 zł за 2 ночи (≈887 zł).",lp:{dx:17,dy:-1,a:"start"},
+  addr:"Wyżne, 38-120 Czudec",
+  lede:"Самое «укомплектованное» предложение в стране: ресторан GRONO стоит прямо посреди 11-гектарного виноградника, рядом — номера, апартамент и деревянные домики с джакузи.",
+  dinner:"Restauracja GRONO на территории винодельни — вт–пт и вс 12:00–20:00, сб 12:00–23:00, пн выходной. Дополнительно: пикниковые корзины среди лозы — региональная и «виноградная» по 150 zł, завтрак-корзина 48 zł с человека.",
+  sleep:"Номера на 2–4 человека, апартамент с общей кухней, вилла Maria Anna и летние домики с джакузи. Завтрак — по запросу.",
+  extra:[["Дегустация","40–50 zł/чел. (2 вина, экскурсия, закуски или 4 вина с сырной доской)"],["Бронь ужина","звонком, столы в сезон разбирают заранее"],["Ближайший город","Rzeszów, ~25 км"]],
+  tel:[["+48 665 667 700","приём, бронь номеров"],["+48 790 590 626","дегустации"],["+48 603 113 114","мероприятия"]],
+  mail:"kontakt@winnicapodkarpacie.pl",
+  web:["winnicapodkarpacie.pl","https://winnicapodkarpacie.pl/"],
+  book:[["Своя система бронирования","https://winnica-maria-anna.bed-booking.com","bed-booking.com — номера и домики"],["Booking.com","https://www.booking.com/hotel/pl/winnica-maria-anna-wyzne1.html","отзывы и свободные даты"]]},
+
+ {n:2,name:"Pałac Mierzęcin Wellness & Wine Resort",region:"Любушское",place:"Mierzęcin k. Dobiegniewa",lat:52.9556,lon:15.8361,dine:"full",stay:"hotel",price:"360–620 zł/ночь",pnote:"Прайс отеля: одноместный от 360 zł, двухместные 490–620 zł, Delux во дворце от 560 zł. Пакеты с ужином — 580–875 zł.",
+  addr:"Mierzęcin 1, 66-520 Dobiegniew",
+  lede:"Старейший и самый крупный винный курорт Польши: дворец XIX века, третий по величине виноградник страны, конюшня и Grape SPA с процедурами на винограде.",
+  dinner:"Две ресторанные площадки — Restauracja Destylarnia (в бывшей винокурне) и Restauracja Pałacowa, плюс формат Chef's Palace Table, бильярд-паб и гриль-беседка. Столик в Destylarni бронируется отдельным телефоном.",
+  sleep:"Около 150 мест во дворце и исторических постройках усадьбы. SPA, бассейн, японский сад, конный клуб.",
+  extra:[["Виноградник","собственный, известен рислингами"],["SPA","Grape SPA, процедуры на винограде"],["Ближайший город","Gorzów Wlkp. ~50 км, Poznań ~150 км"]],
+  tel:[["+48 95 71 31 500","ресепшн / бронь"],["+48 95 71 31 630","бронь столика в Destylarni"],["+48 691 728 090","винодельня и дегустации"]],
+  mail:"recepcja@palacmierzecin.pl",
+  web:["palacmierzecin.pl","https://www.palacmierzecin.pl/"],
+  book:[["Booking.com","https://www.booking.com/hotel/pl/paaac-mierzacin-wellnes-amp-wine-resort.html","цены и наличие мест"]]},
+
+ {n:3,name:"Poziom 511 + Winnica Białe Skały",region:"Силезия",place:"Podzamcze / Ogrodzieniec",lat:50.4525,lon:19.5525,dine:"full",stay:"hotel",price:"от 671 zł/ночь",pnote:"Google Hotels, декабрь 2026: от 671 zł за ночь. На Booking.com двухместный с завтраком — около 775 zł, на Expedia 856–908 zł. Пакет «2 ночи с завтраками» — примерно 750 zł с человека.",
+  addr:"ul. Bonerów 33, 42-440 Podzamcze k. Ogrodzieńca",
+  lede:"Четырёхзвёздочный отель, врезанный в известняковую скалу у подножия замка Огродзенец, а по соседнему склону поднимается Białe Skały — самый высоко расположенный виноградник Юры.",
+  dinner:"Restauracja 511 в отеле (региональная кухня) и Wine Bar Białe Skały с видом на лозу — там же камерные ужины и вечерние мероприятия. По выходным — дегустации и винные пикники на винограднике.",
+  sleep:"Отель Poziom 511 Jura Wellness Hotel & SPA 4*, спа-зона, бассейн. До замка Огродзенец — 3 минуты пешком.",
+  extra:[["Виноградник","более 5 га на известняке: Pinot Noir, Chardonnay, Solaris, Johanniter, Muscaris, Regent, Cabernet Cortis"],["Ближайший город","Zawiercie ~12 км, Katowice ~50 км"]],
+  tel:[["+48 32 746 28 00","ресепшн, бронь номеров"],["+48 602 752 171","бронь и справки"],["+48 538 810 957","менеджер ресторана"]],
+  mail:"recepcja@poziom511.com",
+  web:["poziom511.pl","https://www.poziom511.pl/"],
+  book:[["Бронь на сайте отеля","https://www.poziom511.pl/","виджет «Sprawdź termin»"],["Винодельня Białe Skały","https://bialeskaly.pl/","дегустации и энотуризм"]]},
+
+ {n:4,name:"Dwór Sanna",region:"Люблинское",place:"Wierzchowiska Drugie, gm. Modliborzyce",lat:50.7973,lon:22.4065,dine:"full",stay:"hotel",price:"от 280 zł/ночь",pnote:"Официальный прайс: номера Riesling/Regent/Johanniter/Muscaris/Seyval — 280–340 zł (зима/лето, будни), Solaris 350–400 zł, Chardonnay 650–800 zł, фольварк 150–180 zł. Доп. место 140 zł, животное 50 zł/ночь.",
+  addr:"Wierzchowiska Drugie 163, 23-310 Modliborzyce",
+  lede:"Отреставрированная усадьба XIX века в 30-гектарном парке с аллеей 200-летних грабов, биодинамическая ферма и виноградник — место, которое сами хозяева называют «польской Тосканой».",
+  dinner:"Ресторан в усадьбе работает почти целиком на своих продуктах: овощи и фрукты из теплицы без химии, сыры, мясо с фермы. Отдельный формат — kolacja degustacyjna (дегустационный ужин) с винами. Винный погреб и бар.",
+  sleep:"Бутик-отель 4* на 12 номеров в усадьбе плюс жильё в фольварке.",
+  extra:[["Вино","натуральные вина Nizio Naturals — один из немногих таких проектов в Польше"],["Ближайший город","Lublin ~58 км, Kraśnik ~20 км"],["Важно","часто путают с Wąwolnicą — усадьба находится в Wierzchowiskach Drugich"]],
+  tel:[["+48 15 871 61 53","отель"],["+48 606 112 473","отель, мобильный"],["+48 795 461 820","ресторан"]],
+  mail:"recepcja@dworsanna.pl",
+  web:["dworsanna.pl","https://www.dworsanna.pl/"],
+  book:[["Booking.com","https://www.booking.com/hotel/pl/dwor-sanna.html","цены 2026 и наличие"],["Ресторан","https://www.dworsanna.pl/restauracja/","меню и дегустационные ужины"]]},
+
+ {n:5,name:"Pałac Mała Wieś",region:"Мазовия",place:"Mała Wieś k. Belska Dużego",lat:51.806,lon:20.762,dine:"full",stay:"hotel",price:"от 824 zł/ночь",pnote:"Booking, октябрь 2026: свободные даты от 824–989 zł за ночь, 2 ночи от 1703 zł.",
+  addr:"Mała Wieś 40, 05-622 Belsk Duży",
+  lede:"Классицистический дворец 1786 года в часе езды от Варшавы. Виноградник заложен в 2023 году и на 30 га уже крупнейший в Мазовии — самый удобный вариант, если вы стартуете из столицы.",
+  dinner:"Restauracja Stara Wozownia в исторической каретной — два уровня, традиционная польская кухня. Отдельно — винный бар с большой подборкой вин, а также Nowa Oranżeria для мероприятий.",
+  sleep:"Отель 4* в дворцовом корпусе и хозяйственных постройках, SPA, сауна, джакузи, французский и розовый сады, парк.",
+  extra:[["Расстояние","~50 км от центра Варшавы"],["Виноградник","30 га, посадка 2023 — молодой, но крупнейший на Мазовии"],["Удобства","SPA, бассейн, тренажёрный зал, приём с животными"]],
+  tel:[["+48 782 40 40 40","ресепшн"],["+48 48 332 26 70","ресепшн, стационарный"]],
+  mail:"recepcja@palacmalawies.pl",
+  web:["palacmalawies.pl","https://palacmalawies.pl/"],
+  book:[["Бронь на сайте","https://palacmalawies.pl/","онлайн-бронирование номеров"],["Ресторан Stara Wozownia","https://palacmalawies.pl/galerie/restauracja","галерея и меню"]]},
+
+ {n:6,name:"Winnica Turnau",region:"Западно-Поморское",place:"Baniewice k. Gryfina",lat:53.1167,lon:14.6333,dine:"part",stay:"rooms",price:"250–300 zł/ночь",pnote:"Прайс винодельни: одноместный 250 zł, двухместный 300 zł, весь дом 1500 zł, доп. место 150 zł. Сезон 15.04–31.10.",
+  addr:"Baniewice 115, 74-110 Baniewice",
+  lede:"Самая большая винодельня Польши — более 41 га лозы недалеко от немецкой границы. Гостевой дом на 12 человек стоит рядом с виноградником, а в главном здании есть зал для дегустационных ужинов.",
+  dinner:"Полноценного ресторана нет. Есть трёхчасовая экскурсия с дегустацией 6 вин и ремесленными сырами — 150 zł с человека, по субботам 11:00–17:00. Дегустационные ужины и концерты в зале организуют по договорённости, чаще для групп от 20 человек (пн–пт).",
+  sleep:"Дом гостевой: 5 номеров, до 12 человек, отреставрированное 100-летнее здание, кухни на каждом этаже, террасы, гриль. Сезон 15 апреля — 31 октября.",
+  extra:[["Цены за ночь","двухместный 300 zł · одноместный 250 zł · весь дом 1500 zł · доп. место 150 zł"],["Логистика","до самой винодельни ~2 км, транспорт свой"],["Ближайший город","Szczecin ~40 км, Gryfino ~15 км"]],
+  tel:[["+48 91 307 91 31","общий, добавочный 2 — ночлег"]],
+  mail:"noclegi@winnicaturnau.pl",
+  web:["winnicaturnau.pl","https://www.winnicaturnau.pl/pl"],
+  book:[["Экскурсия с дегустацией","https://www.winnicaturnau.pl/pl/enoturystyka-zwiedzanie-winnicy-winnica-turnau-4","онлайн-календарь для индивидуальных гостей"]]},
+
+ {n:7,name:"Winnica Płochockich",region:"Свентокшиское",place:"Daromin k. Sandomierza",lat:50.7444,lon:21.6353,dine:"part",stay:"rooms",price:"от 150 zł/ночь",pnote:"От 150 zł за двухместный номер. Ночлег сезонный, обычно май–август.",
+  addr:"Daromin 2, 27-612 Wilczyce",
+  lede:"Семейная винодельня на Сандомирской возвышенности, известная винами в грузинских квеври. Тихий деревенский вариант в 20 км от Сандомира.",
+  dinner:"Ресторана нет: есть дегустационный зал, дегустации с комментарием и гриль-зона для гостей. Ужин обсуждается заранее при бронировании — хозяева подскажут, что привезти или где поесть рядом.",
+  sleep:"Четыре двухместных номера с ванными и апартамент на 4 человек. Общая кухня и гостиная, терраса с видом на виноградник. Ночлег сезонный — уточняйте даты.",
+  extra:[["Особенность","вина из квеври — редкость для Польши"],["Ближайший город","Sandomierz ~20 км"],["Формат","ночлег обычно продают в связке с дегустацией"]],
+  tel:[["+48 504 012 189","Barbara Płochocka — бронь"]],
+  mail:"basia@winnicaplochockich.pl",
+  web:["winnicaplochockich.pl","https://winnicaplochockich.pl/"],
+  book:[["Страница ночлега","https://winnicaplochockich.pl/nocleg/","условия и описание номеров"],["Контакт","https://winnicaplochockich.pl/kontakt/","форма и телефон"]]},
+
+ {n:8,name:"Winnica Jerzmanice Zdrój",region:"Нижняя Силезия",place:"Jerzmanice-Zdrój k. Złotoryi",lat:51.150,lon:15.902,dine:"part",stay:"house",price:"700 zł/ночь",pnote:"Slowhop: 700 zł за домик для двоих, каждый следующий гость +200 zł/ночь. Домик вмещает до 4 человек, завтрак и спа-зона включены в предложение.",
+  addr:"Jerzmanice Zdrój 78, 59-500 Złotoryja",
+  lede:"Самый камерный вариант в подборке: один домик на двоих на вершине террасного виноградника в Качавских горах. Машину оставляют внизу, наверх идут пешком.",
+  dinner:"Кухни ресторанного формата нет. Завтрак из локальных продуктов привозят к домику, есть сауна и баня. Ужин — самостоятельно или в Злоторые (~5 км).",
+  sleep:"Домик на 2–4 человека с видом на террасы виноградника. Хозяйство органическое, в переходе на биодинамику.",
+  extra:[["Размер","около 1 га, семейная винодельня с 2014 года"],["Внимание","официальный сайт winnicajerzmanice.pl временно не работает — бронируйте через Slowhop или по e-mail"],["Ближайший город","Złotoryja ~5 км, Legnica ~30 км"]],
+  tel:[],
+  mail:"info@winnicajerzmanice.pl",
+  web:["Slowhop — страница объекта","https://slowhop.com/pl/miejsca/3378-winnica-jerzmanice.html"],
+  book:[["Slowhop","https://slowhop.com/en/places/3378-winnica-jerzmanice.html","календарь, цены, онлайн-бронь"],["Facebook винодельни","https://www.facebook.com/p/WINNICA-JERZMANICE-ZDR%C3%93J-100063557804602/","актуальные новости и связь"]]},
+
+ {n:9,name:"Winnica Witaj Słońce",region:"Лодзинское",place:"Mnich Probostwo k. Kutna",lat:52.230,lon:19.520,dine:"part",stay:"rooms",price:"по запросу",pnote:"Прайс не публикуется: цену называют по телефону или в ответ на форму бронирования на сайте. Дом можно снять целиком.",
+  addr:"Mnich Probostwo 1, 99-322 Oporów",
+  lede:"Винодельня, специализирующаяся на игристых по традиционному методу. Три номера с видом на лозу, до Лодзи — 80 км, доехать можно поездом.",
+  dinner:"Дегустационный зал с кухонным блоком и террасой: хозяева готовят завтраки, ужин и застолье согласуются заранее. Есть кемпинг-площадка.",
+  sleep:"Три номера на втором этаже с видом на виноградник: Solaris и Cabernet (2 чел. + доп. место) и Seyval (4 чел.). Дом можно снять целиком.",
+  extra:[["Специализация","игристые вина классическим методом"],["Формат","хороший вариант для компании — дом на выкуп"],["Ближайший город","Kutno ~15 км, Łódź ~80 км"]],
+  tel:[["+48 665 381 430","Arek"],["+48 608 368 865","Sylwia"]],
+  mail:"witaj@winnicawitajslonce.pl",
+  web:["winnicawitajslonce.pl","http://winnicawitajslonce.pl/oferta/"],
+  book:[["Форма бронирования","https://winnicawitajslonce.pl/rezerwacje/","запрос на даты прямо на сайте"],["Номера и дом целиком","https://winnicawitajslonce.pl/pokoje/","Solaris, Cabernet, Seyval и аренда всего здания"]]},
+
+ {n:10,name:"Winnica Sztukówka",region:"Подкарпатье",place:"Glinik Średni k. Frysztaka",lat:49.867,lon:21.617,dine:"self",stay:"house",price:"от 459 zł/ночь",pnote:"Booking, октябрь 2026: от 918 zł за 2 ночи (≈459 zł/ночь). Завтрак à la carte на месте, есть вегетарианские и веганские варианты.",lp:{dx:-17,dy:-1,a:"end"},
+  addr:"Glinik Średni 153, 38-130 Frysztak",
+  lede:"Два мансардных апартамента над винодельней и 30-метровая крытая терраса, с которой в ясный день видны Бескиды и Бещады.",
+  dinner:"Ресторана нет, но завтрак готовят на месте à la carte (есть вегетарианские и веганские варианты). Плюс гриль-беседка, кухни в апартаментах и дегустации в винодельне. Ближайшие рестораны — во Фрыштаке и Стшижуве.",
+  sleep:"Два независимых апартамента: «Prestiż» 36 м² на 2 человек и «Luksus» 99 м² на 4. Есть огороженная площадка для кемперов и палаток.",
+  extra:[["Виноградник","3,6 га, заложен в 2009 году"],["Дегустация","70 zł с человека, для гостей с ночлегом 60 zł"],["Прокат","велосипеды 50 zł/день"],["Ближайший город","Rzeszów ~50 км"]],
+  tel:[["+48 605 539 422","Leszek Szczęch, владелец и винодел"]],
+  mail:"winnica@sztukowka.pl",
+  web:["sztukowka.pl","https://www.sztukowka.pl/"],
+  book:[["Booking.com","https://www.booking.com/hotel/pl/winnica-sztukowka.html","цены 2026 и онлайн-бронь"],["Энотуризм на сайте","https://www.sztukowka.pl/enoturystyka","дегустации и экскурсии"]]},
+
+ {n:11,name:"Winnica Dwie Granice",region:"Подкарпатье",place:"Przysieki k. Jasła",lat:49.795,lon:21.423,dine:"self",stay:"rooms",price:"по датам",pnote:"Цены на Nocowanie.pl показываются после выбора дат. В наличии два двухместных номера Premium и три четырёхместных апартамента с двумя спальнями.",
+  addr:"Przysieki 412, 38-207 Przysieki",
+  lede:"Семейная винодельня на 3 га с собственным погребом и залом для дегустаций, где вина комментирует сомелье. Пять единиц размещения — заметно больше, чем у соседей по масштабу.",
+  dinner:"Отдельного ресторана нет: в распоряжении гостей общая полностью оборудованная кухня со столовой. Дегустация с сомелье в зале — основной «вечерний» формат.",
+  sleep:"Два двухместных номера и три четырёхместных апартамента (по две спальни каждый), все на этаже, с кондиционером, ТВ и интернетом.",
+  extra:[["Виноградник","3 га, экскурсия по погребу и винодельне"],["Ближайший город","Jasło ~8 км, Rzeszów ~60 км"],["Кому подойдёт","компаниям и семьям — апартаменты с двумя спальнями"]],
+  tel:[["+48 606 787 623","бронь и дегустации"]],
+  mail:"",
+  web:["winnicadwiegranice.pl","https://www.winnicadwiegranice.pl/enoturystyka/"],
+  book:[["Nocowanie.pl","https://www.nocowanie.pl/rezerwuj/1505571-agroturystyka-winnica-dwe-granice/","онлайн-запрос на бронь"],["Энотуризм на сайте","https://www.winnicadwiegranice.pl/enoturystyka/","дегустации и ночлег"]]},
+
+ {n:12,name:"Winnica Chronów",region:"Малопольша",place:"Chronów, gm. Nowy Wiśnicz",lat:49.877,lon:20.496,dine:"self",stay:"house",price:"200–280 zł/ночь",pnote:"Прайс винодельни: 200 zł за двоих, 240 zł за троих, 280 zł за четверых. Уборка 60 zł за визит, животное 20 zł/сутки.",lp:{dx:0,dy:17,a:"middle"},
+  addr:"Chronów, gm. Nowy Wiśnicz, powiat bocheński",
+  lede:"Точка на Малопольском винном маршруте, равноудалённая от Кракова, Тарнува и Нового Сонча — по 50 км до каждого. Два самостоятельных апартамента прямо у лозы.",
+  dinner:"Ресторана нет: общий павильон с грилем, кострище и кухни в апартаментах. Дегустации — на винодельне, ужин готовите сами или едете в Nowy Wiśnicz.",
+  sleep:"Два апартамента на 2–4 человека: «Parter» 30 м² с выходом на террасу и «Poddasze» 60 м² с гостиной и кухонным уголком.",
+  extra:[["Цены за ночь","2 чел. 200 zł · 3 чел. 240 zł · 4 чел. 280 zł"],["Доплаты","уборка 60 zł за визит · животные 20 zł/сутки по согласованию"],["Для детей","небольшая игровая площадка на территории"]],
+  tel:[],
+  mail:"winnica.chronow@gmail.com",
+  web:["winnicachronow.pl","https://www.winnicachronow.pl/"],
+  book:[["Ночлег на сайте","https://www.winnicachronow.pl/nocleg-na-winnicy-ma%C5%82opolska","описание апартаментов и цены"],["Дегустации","https://www.winnicachronow.pl/degustacja-win-ma%C5%82opolska","энотуризм"]]}
+];
+
+var DINE = {
+  full:{label:"Ресторан на месте",cls:"d-full",color:"#2F7D5B"},
+  part:{label:"Ужин по заказу",cls:"d-part",color:"#B8862B"},
+  self:{label:"Своя кухня / гриль",cls:"d-self",color:"#8892A8"}
+};
+
+/* ============ ГЕОГРАФИЯ ============ */
+var BORDER=[[53.92,14.24],[53.66,14.28],[53.42,14.55],[53.25,14.49],[52.85,14.42],[52.59,14.64],[52.35,14.56],[52.10,14.70],[51.95,14.72],[51.75,14.72],[51.54,14.73],[51.36,14.95],[51.15,15.00],[50.98,14.98],[50.86,14.82],[50.90,15.02],[50.80,15.28],[50.78,15.55],[50.68,15.75],[50.72,16.02],[50.60,16.10],[50.50,16.20],[50.44,16.24],[50.32,16.32],[50.40,16.55],[50.25,16.65],[50.15,16.75],[50.28,17.00],[50.20,17.20],[50.31,17.38],[50.22,17.60],[50.10,17.75],[50.24,17.90],[49.98,18.15],[49.92,18.40],[49.75,18.63],[49.60,18.85],[49.52,19.03],[49.40,19.20],[49.53,19.45],[49.42,19.65],[49.18,19.83],[49.28,20.00],[49.40,20.10],[49.35,20.30],[49.45,20.50],[49.38,20.72],[49.38,20.95],[49.30,21.10],[49.42,21.40],[49.35,21.60],[49.25,21.80],[49.20,22.05],[49.05,22.55],[49.09,22.83],[49.22,22.70],[49.45,22.65],[49.83,22.83],[50.10,23.20],[50.40,23.60],[50.75,24.09],[50.85,24.15],[51.10,23.90],[51.30,23.65],[51.55,23.55],[51.80,23.65],[52.07,23.62],[52.35,23.40],[52.70,23.85],[52.90,23.50],[53.30,23.60],[53.60,23.50],[54.00,23.30],[54.35,23.00],[54.37,22.79],[54.32,22.30],[54.35,21.60],[54.30,20.90],[54.36,20.20],[54.40,19.70],[54.45,19.64],[54.35,19.40],[54.30,19.30],[54.14,19.40],[54.05,19.35],[54.15,19.10],[54.35,18.95],[54.40,18.65],[54.60,18.80],[54.75,18.80],[54.83,18.81],[54.75,18.55],[54.72,18.42],[54.83,18.30],[54.76,17.55],[54.60,17.00],[54.58,16.86],[54.40,16.20],[54.19,15.58],[54.15,15.20],[54.05,14.90],[54.03,14.75]];
+
+/* Балтика: побережье + замыкание на север */
+var SEA=[[54.03,14.75],[54.05,14.90],[54.15,15.20],[54.19,15.58],[54.40,16.20],[54.58,16.86],[54.60,17.00],[54.76,17.55],[54.83,18.30],[54.72,18.42],[54.75,18.55],[54.83,18.81],[54.75,18.80],[54.60,18.80],[54.40,18.65],[54.35,18.95],[54.15,19.10],[54.05,19.35],[54.14,19.40],[54.30,19.30],[54.35,19.40],[54.45,19.64],[54.60,19.90],[55.40,19.90],[55.40,14.10],[53.95,14.10]];
+
+var RIVERS=[
+ {n:"Wisła",big:1,p:[[49.60,18.95],[49.85,19.30],[50.05,19.94],[50.28,20.55],[50.45,21.20],[50.68,21.75],[51.00,21.85],[51.30,21.85],[51.62,21.60],[52.00,21.35],[52.25,21.02],[52.40,20.55],[52.55,19.70],[52.75,19.05],[53.02,18.60],[53.35,18.75],[53.70,18.80],[54.10,18.90],[54.35,18.95]]},
+ {n:"Odra",big:1,p:[[49.98,18.30],[50.10,18.20],[50.30,18.05],[50.68,17.85],[51.10,17.03],[51.45,16.60],[51.70,16.10],[51.95,15.60],[52.20,14.95],[52.35,14.56],[52.59,14.64],[52.85,14.42],[53.25,14.49],[53.42,14.55],[53.70,14.50]]},
+ {n:"Warta",big:0,p:[[50.68,19.28],[50.95,19.10],[51.35,18.90],[51.60,18.75],[51.95,18.40],[52.20,18.25],[52.30,17.55],[52.41,16.93],[52.55,16.30],[52.73,15.24],[52.65,14.90],[52.59,14.64]]},
+ {n:"Noteć",big:0,p:[[52.80,18.25],[52.95,17.90],[53.14,17.60],[53.13,17.10],[53.15,16.74],[52.95,16.30],[52.88,16.02],[52.78,15.60],[52.73,15.24]]},
+ {n:"Bug",big:0,p:[[50.60,23.90],[51.10,23.75],[51.55,23.55],[52.07,23.62],[52.30,23.00],[52.40,22.65],[52.55,22.00],[52.60,21.45],[52.45,21.10],[52.42,21.05]]},
+ {n:"Narew",big:0,p:[[53.05,23.20],[53.18,22.60],[53.18,22.08],[52.95,21.60],[52.70,21.08],[52.42,21.05]]},
+ {n:"San",big:0,p:[[49.30,22.30],[49.55,22.20],[49.78,22.77],[50.00,22.68],[50.30,22.25],[50.58,22.05],[50.68,21.90]]},
+ {n:"Bóbr",big:0,p:[[50.85,15.60],[51.20,15.60],[51.55,15.55],[51.95,15.30],[52.05,15.10]]}
+];
+
+var ROADS=[
+ {n:"A2",p:[[52.32,14.60],[52.35,15.30],[52.40,16.20],[52.41,16.93],[52.30,17.60],[52.10,18.60],[51.95,19.10],[51.90,19.45],[52.05,20.20],[52.20,20.90]]},
+ {n:"A4",p:[[51.15,15.00],[51.12,15.80],[51.11,16.50],[51.11,17.03],[50.85,17.60],[50.60,18.20],[50.35,18.70],[50.26,19.02],[50.10,19.50],[50.06,19.94],[50.05,20.60],[50.03,21.20],[50.04,22.00],[50.03,22.60],[50.03,23.15]]},
+ {n:"A1",p:[[54.32,18.60],[54.00,18.60],[53.50,18.55],[53.02,18.60],[52.60,19.10],[52.10,19.35],[51.76,19.46],[51.30,19.30],[50.81,19.12],[50.50,18.90],[50.30,18.70],[49.94,18.35]]},
+ {n:"S7",p:[[54.32,18.62],[54.15,19.40],[53.70,20.30],[53.30,20.60],[52.80,20.75],[52.40,20.85],[52.23,21.01],[51.80,20.85],[51.30,20.75],[50.87,20.63],[50.55,20.30],[50.06,19.94],[49.70,19.95],[49.60,19.96]]},
+ {n:"S3",p:[[53.90,14.30],[53.60,14.55],[53.43,14.55],[53.10,15.00],[52.73,15.24],[52.40,15.35],[51.94,15.50],[51.60,15.75],[51.20,16.16]]},
+ {n:"S8",p:[[51.11,17.03],[51.20,17.90],[51.30,18.70],[51.40,19.70],[51.60,20.30],[52.00,20.75],[52.23,21.01],[52.60,21.90],[52.90,22.70],[53.13,23.16]]},
+ {n:"S17",p:[[52.23,21.01],[51.90,21.60],[51.55,22.10],[51.25,22.57],[50.90,22.90],[50.70,23.20]]},
+ {n:"S19",p:[[53.13,23.16],[52.60,22.90],[52.20,22.70],[51.55,22.30],[51.25,22.57],[50.70,22.30],[50.30,22.10],[50.04,22.00],[49.70,22.10],[49.45,22.20]]}
+];
+
+var LAKES=[
+ {n:"Śniardwy",lat:53.77,lon:21.72,rx:.22,ry:.10},
+ {n:"Mamry",lat:54.14,lon:21.68,rx:.10,ry:.13},
+ {n:"Zalew Szczeciński",lat:53.75,lon:14.40,rx:.28,ry:.16},
+ {n:"Zalew Wiślany",lat:54.42,lon:19.55,rx:.32,ry:.09},
+ {n:"Łebsko",lat:54.70,lon:17.42,rx:.12,ry:.05},
+ {n:"Gopło",lat:52.60,lon:18.35,rx:.05,ry:.13},
+ {n:"Solina",lat:49.38,lon:22.45,rx:.05,ry:.09}
+];
+
+var CITIES=[
+ ["Warszawa",52.23,21.01,"e",1],["Kraków",50.06,19.94,"s",1],["Wrocław",51.11,17.03,"w",1],
+ ["Poznań",52.41,16.93,"w",1],["Gdańsk",54.35,18.65,"e",1],["Szczecin",53.43,14.55,"e",1],
+ ["Łódź",51.76,19.46,"e",1],["Katowice",50.26,19.02,"w",1],["Lublin",51.25,22.57,"e",1],
+ ["Białystok",53.13,23.16,"w",1],["Rzeszów",50.04,22.00,"e",1],["Bydgoszcz",53.12,18.01,"w",1],
+ ["Olsztyn",53.78,20.49,"e",0],["Kielce",50.87,20.63,"e",0],["Toruń",53.02,18.60,"e",0],
+ ["Zielona Góra",51.94,15.50,"w",0],["Gorzów Wlkp.",52.73,15.24,"w",0],["Opole",50.67,17.93,"w",0],
+ ["Częstochowa",50.81,19.12,"w",0],["Sandomierz",50.68,21.75,"e",0],["Legnica",51.21,16.16,"w",0],
+ ["Kutno",52.23,19.36,"w",0],["Jasło",49.75,21.47,"w",0],["Nowy Sącz",49.62,20.70,"s",0],
+ ["Zawiercie",50.49,19.42,"e",0],["Złotoryja",51.13,15.92,"w",0],["Gryfino",53.25,14.49,"w",0],
+ ["Dobiegniew",52.97,15.75,"e",0],["Modliborzyce",50.75,22.33,"w",0],["Nowy Wiśnicz",49.91,20.47,"s",0],
+ ["Frysztak",49.85,21.61,"s",0],["Grójec",51.86,20.87,"w",0]
+];
+
+var HILLS=[["TATRY",49.24,19.98],["SUDETY",50.62,16.30],["BIESZCZADY",49.20,22.40],["BESKIDY",49.62,19.50],["JURA",50.55,19.55],["MAZURY",53.90,21.30]];
+
+var K=1000, COSLAT=Math.cos(52*Math.PI/180);
+function px(lon){return lon*COSLAT*K}
+function py(lat){return -lat*K}
+function toPath(pts,close){
+  var d="";
+  for(var i=0;i<pts.length;i++) d+=(i?"L":"M")+px(pts[i][1]).toFixed(1)+" "+py(pts[i][0]).toFixed(1)+" ";
+  return d+(close?"Z":"");
+}
+/* сглаженная кривая через точки — реки и дороги не должны выглядеть ломаными */
+function smoothPath(pts){
+  if(pts.length<3) return toPath(pts,false);
+  var P=pts.map(function(q){return [px(q[1]),py(q[0])]});
+  var d="M"+P[0][0].toFixed(1)+" "+P[0][1].toFixed(1);
+  for(var i=0;i<P.length-1;i++){
+    var p0=P[i>0?i-1:0], p1=P[i], p2=P[i+1], p3=P[i+2<P.length?i+2:i+1];
+    var c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+    var c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+="C"+c1x.toFixed(1)+" "+c1y.toFixed(1)+","+c2x.toFixed(1)+" "+c2y.toFixed(1)+","+p2[0].toFixed(1)+" "+p2[1].toFixed(1);
+  }
+  return d;
+}
+
+var bx0=1e9,bx1=-1e9,by0=1e9,by1=-1e9;
+BORDER.forEach(function(p){
+  var x=px(p[1]),y=py(p[0]);
+  if(x<bx0)bx0=x; if(x>bx1)bx1=x; if(y<by0)by0=y; if(y>by1)by1=y;
+});
+var PAD=55;
+var BASE={x:bx0-PAD,y:by0-PAD,w:(bx1-bx0)+PAD*2,h:(by1-by0)+PAD*2};
+var HOME={x:BASE.x,y:BASE.y,w:BASE.w,h:BASE.h};
+
+/* ============ РЕНДЕР КАРТЫ ============ */
+var svg=document.getElementById("map"), mapwrap=document.getElementById("mapwrap");
+var NS="http://www.w3.org/2000/svg";
+function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
+
+var defs=el("defs",{});
+var clip=el("clipPath",{id:"plclip"});
+clip.appendChild(el("path",{d:toPath(BORDER,true)}));
+defs.appendChild(clip);
+svg.appendChild(defs);
+
+var gBase=el("g",{}), gInner=el("g",{"clip-path":"url(#plclip)"}), gLabels=el("g",{}), gPins=el("g",{});
+svg.appendChild(gBase); svg.appendChild(gInner); svg.appendChild(gLabels); svg.appendChild(gPins);
+
+/* море и суша */
+gBase.appendChild(el("path",{d:toPath(SEA,true),"class":"sea"}));
+gBase.appendChild(el("path",{d:toPath(BORDER,true),"class":"land"}));
+
+/* всё внутреннее обрезаем по контуру страны */
+LAKES.forEach(function(l){
+  gInner.appendChild(el("ellipse",{cx:px(l.lon),cy:py(l.lat),rx:l.rx*COSLAT*K,ry:l.ry*K,"class":"lake"}));
+});
+ROADS.forEach(function(r){
+  gInner.appendChild(el("path",{d:smoothPath(r.p),"class":"road-case"}));
+});
+ROADS.forEach(function(r){
+  gInner.appendChild(el("path",{d:smoothPath(r.p),"class":"road"}));
+});
+RIVERS.forEach(function(r){
+  gInner.appendChild(el("path",{d:smoothPath(r.p),"class":"river"+(r.big?" big":"")}));
+});
+/* контур страны поверх заливок */
+gInner.appendChild(el("path",{d:toPath(BORDER,true),"class":"land-outline"}));
+
+/* подписи горных районов */
+var hillNodes=[];
+HILLS.forEach(function(h){
+  var t=el("text",{x:px(h[2]),y:py(h[1]),"class":"hilllabel","text-anchor":"middle"});
+  t.textContent=h[0]; gLabels.appendChild(t);
+  hillNodes.push({txt:t,x:px(h[2]),y:py(h[1])});
+});
+/* реки — подписи вдоль */
+var riverNodes=[];
+RIVERS.filter(function(r){return r.big}).forEach(function(r){
+  var mid=r.p[Math.floor(r.p.length*0.62)];
+  var t=el("text",{x:px(mid[1]),y:py(mid[0]),"class":"riverlabel","text-anchor":"middle"});
+  t.textContent=r.n; gLabels.appendChild(t);
+  riverNodes.push({txt:t,x:px(mid[1]),y:py(mid[0])});
+});
+/* дороги — бейджи */
+var roadNodes=[];
+ROADS.forEach(function(r){
+  var mid=r.p[Math.floor(r.p.length*0.5)];
+  var g=el("g",{"class":"roadbadge"});
+  var x=px(mid[1]), y=py(mid[0]);
+  var rect=el("rect",{x:-13,y:-7,width:26,height:14,rx:3});
+  var t=el("text",{x:0,y:0}); t.textContent=r.n;
+  g.appendChild(rect); g.appendChild(t);
+  gLabels.appendChild(g);
+  roadNodes.push({g:g,x:x,y:y});
+});
+/* города */
+var cityNodes=[];
+CITIES.forEach(function(c){
+  var x=px(c[2]), y=py(c[1]), big=c[4];
+  var g=el("g",{"class":"city"+(big?" big":"")});
+  var dot=el("circle",{cx:0,cy:0,r:big?2.6:1.8});
+  var anchor=c[3]==="w"?"end":(c[3]==="s"?"middle":"start");
+  var dx=c[3]==="w"?-6:(c[3]==="s"?0:6);
+  var dy=c[3]==="s"?12:3.6;
+  var t=el("text",{x:dx,y:dy,"text-anchor":anchor}); t.textContent=c[0];
+  g.appendChild(dot); g.appendChild(t);
+  gLabels.appendChild(g);
+  cityNodes.push({g:g,x:x,y:y});
+});
+
+/* маркеры-капли */
+var PIN_D="M0 0 C-4.6 -7.4 -13 -14.6 -13 -23.2 A13 13 0 1 1 13 -23.2 C13 -14.6 4.6 -7.4 0 0 Z";
+var pins=[];
+PLACES.forEach(function(p){
+  var x=px(p.lon), y=py(p.lat), c=DINE[p.dine].color;
+  var g=el("g",{"class":"pin",tabindex:"0",role:"button","data-n":p.n,"aria-label":p.name+", "+p.place+" — "+DINE[p.dine].label});
+  var inner=el("g",{});
+  inner.appendChild(el("ellipse",{cx:0,cy:2.2,rx:8,ry:2.8,"class":"pinshadow"}));
+  inner.appendChild(el("circle",{cx:0,cy:0,r:30,"class":"halo"}));
+  var body=el("path",{d:PIN_D,fill:c,"class":"pinbody"});
+  inner.appendChild(body);
+  inner.appendChild(el("circle",{cx:0,cy:-23.2,r:8,"class":"pinhole"}));
+  var num=el("text",{x:0,y:-23.2,"class":"num",fill:c}); num.textContent=p.n;
+  inner.appendChild(num);
+  var lp=p.lp||{dx:0,dy:14,a:"middle"};
+  var lbl=el("text",{x:lp.dx,y:lp.dy,"class":"pinlabel","text-anchor":lp.a});
+  lbl.textContent=p.name.replace(/^Winnica /,"").replace(/^Pałac /,"");
+  inner.appendChild(lbl);
+  g.appendChild(inner);
+  gPins.appendChild(g);
+  var rec={g:g,inner:inner,x:x,y:y,p:p};
+  pins.push(rec);
+  /* клик и наведение обрабатываются делегированием на самом svg:
+     во время перетаскивания карта захватывает указатель, и прямые
+     обработчики на маркерах до них не доходят */
+  g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();select(p.n)}});
+  g.addEventListener("focus",function(){showTip(rec);highlightRow(p.n,true)});
+  g.addEventListener("blur",function(){hideTip();highlightRow(p.n,false)});
+});
+
+/* всплывающая карточка у маркера (десктоп) */
+var tipEl=document.createElement("div");
+tipEl.className="maptip"; tipEl.setAttribute("aria-hidden","true");
+mapwrap.appendChild(tipEl);
+var tipFor=null;
+function showTip(rec){
+  if(window.matchMedia("(hover:none)").matches) return;
+  var p=rec.p, d=DINE[p.dine];
+  tipEl.innerHTML='<span class="t-name">'+esc(p.name)+'</span>'+
+    '<span class="t-meta"><span class="sq '+d.cls+'"></span>'+esc(d.label)+'</span>'+
+    '<span class="t-place">'+esc(p.place)+' · '+esc(p.region)+'</span>'+
+    '<span class="t-cta">Нажмите — контакты и бронирование</span>';
+  tipFor=rec; positionTip(); tipEl.classList.add("on");
+}
+function positionTip(){
+  if(!tipFor) return;
+  var r=svg.getBoundingClientRect(), m=mapwrap.getBoundingClientRect();
+  var sx=(tipFor.x-vb.x)/vb.w*r.width+(r.left-m.left);
+  var sy=(tipFor.y-vb.y)/vb.h*r.height+(r.top-m.top);
+  tipEl.style.left=sx+"px";
+  tipEl.style.top=(sy-46)+"px";
+}
+function hideTip(){tipEl.classList.remove("on");tipFor=null}
+
+function pinNodeFrom(node){
+  while(node&&node!==svg){
+    if(node.classList&&node.classList.contains("pin")) return node;
+    node=node.parentNode;
+  }
+  return null;
+}
+function pinRecFrom(node){
+  var g=pinNodeFrom(node); if(!g) return null;
+  var n=+g.getAttribute("data-n");
+  return pins.filter(function(r){return r.p.n===n})[0]||null;
+}
+svg.addEventListener("click",function(e){
+  if(dragMoved) return;                       /* клик в конце перетаскивания не считается */
+  var rec=pinRecFrom(e.target);
+  if(rec) select(rec.p.n);
+});
+svg.addEventListener("mousemove",function(e){
+  if(Object.keys(ptrs).length) return;        /* во время перетаскивания подсказку не трогаем */
+  var rec=pinRecFrom(e.target);
+  if(rec){
+    if(tipFor!==rec){
+      if(tipFor) highlightRow(tipFor.p.n,false);
+      showTip(rec); highlightRow(rec.p.n,true);
+    }
+  }else if(tipFor){
+    highlightRow(tipFor.p.n,false); hideTip();
+  }
+});
+svg.addEventListener("mouseleave",function(){
+  if(tipFor){highlightRow(tipFor.p.n,false);hideTip()}
+});
+
+/* ============ ZOOM / PAN ============ */
+var vb={x:HOME.x,y:HOME.y,w:HOME.w,h:HOME.h};
+function applyVB(){
+  svg.setAttribute("viewBox",vb.x+" "+vb.y+" "+vb.w+" "+vb.h);
+  /* u — единиц viewBox на экранный пиксель: элементы держат постоянный размер на экране */
+  var rect=svg.getBoundingClientRect();
+  var u=rect.width?vb.w/rect.width:1;
+  var scale=Math.min(u,BASE.w/900);           /* не даём меткам раздуться на узком экране */
+  pins.forEach(function(r){
+    r.inner.setAttribute("transform","scale("+u+")");
+    r.g.setAttribute("transform","translate("+r.x+","+r.y+")");
+  });
+  cityNodes.forEach(function(c){
+    c.g.setAttribute("transform","translate("+c.x+","+c.y+") scale("+u+")");
+  });
+  roadNodes.forEach(function(c){
+    c.g.setAttribute("transform","translate("+c.x+","+c.y+") scale("+u+")");
+  });
+  hillNodes.concat(riverNodes).forEach(function(c){
+    c.txt.setAttribute("font-size",(11*u)+"px");
+    c.txt.setAttribute("x",c.x); c.txt.setAttribute("y",c.y);
+  });
+  /* при сильном приближении показываем второстепенные города */
+  var z=BASE.w/vb.w;
+  svg.classList.toggle("zoomed",z>1.7);
+  positionTip();
+}
+function clampVB(){
+  var minW=BASE.w*0.08, maxW=HOME.w*1.35;
+  vb.w=Math.max(minW,Math.min(maxW,vb.w));
+  vb.h=vb.w*(HOME.h/HOME.w);
+  var mx=HOME.w*0.3, my=HOME.h*0.3;
+  vb.x=Math.max(HOME.x-mx,Math.min(HOME.x+HOME.w+mx-vb.w,vb.x));
+  vb.y=Math.max(HOME.y-my,Math.min(HOME.y+HOME.h+my-vb.h,vb.y));
+}
+function fitAspect(){
+  var r=mapwrap.getBoundingClientRect();
+  HOME.x=BASE.x; HOME.y=BASE.y; HOME.w=BASE.w; HOME.h=BASE.h;
+  if(!r.width||!r.height) return;
+  var boxAR=r.width/r.height, mapAR=BASE.w/BASE.h;
+  if(boxAR>mapAR){var nw=BASE.h*boxAR; HOME.x=BASE.x-(nw-BASE.w)/2; HOME.w=nw;}
+  else{var nh=BASE.w/boxAR; HOME.y=BASE.y-(nh-BASE.h)/2; HOME.h=nh;}
+  svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+}
+function zoomAt(factor,cx,cy){
+  var nw=vb.w*factor, nh=vb.h*factor;
+  var minW=BASE.w*0.08, maxW=HOME.w*1.35;
+  if(nw<minW){nw=minW;nh=nw*(vb.h/vb.w)} if(nw>maxW){nw=maxW;nh=nw*(vb.h/vb.w)}
+  vb.x=cx-(cx-vb.x)*(nw/vb.w);
+  vb.y=cy-(cy-vb.y)*(nh/vb.h);
+  vb.w=nw; vb.h=nh; clampVB(); applyVB();
+}
+function svgPoint(clientX,clientY){
+  var r=svg.getBoundingClientRect();
+  return {x:vb.x+(clientX-r.left)/r.width*vb.w, y:vb.y+(clientY-r.top)/r.height*vb.h};
+}
+svg.addEventListener("wheel",function(e){
+  e.preventDefault(); hideTip();
+  var pt=svgPoint(e.clientX,e.clientY);
+  zoomAt(e.deltaY>0?1.14:0.88,pt.x,pt.y);
+},{passive:false});
+
+var ptrs={}, lastDist=0, dragStart=null, dragMoved=false, captured=false;
+svg.addEventListener("pointerdown",function(e){
+  ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+  dragStart={x:e.clientX,y:e.clientY};
+  dragMoved=false;
+  svg.classList.add("dragging");
+});
+svg.addEventListener("pointermove",function(e){
+  if(!ptrs[e.pointerId]) return;
+  var ids=Object.keys(ptrs), r=svg.getBoundingClientRect();
+  if(ids.length===1){
+    var prev=ptrs[e.pointerId];
+    var dx=(e.clientX-prev.x)/r.width*vb.w, dy=(e.clientY-prev.y)/r.height*vb.h;
+    vb.x-=dx; vb.y-=dy; clampVB(); applyVB();
+    ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+    if(dragStart&&(Math.abs(e.clientX-dragStart.x)>4||Math.abs(e.clientY-dragStart.y)>4)){
+      dragMoved=true; hideTip();
+      if(!captured){svg.setPointerCapture(e.pointerId);captured=true}
+    }
+  }else if(ids.length===2){
+    ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+    var a=ptrs[ids[0]],b=ptrs[ids[1]];
+    var d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(lastDist){var mid=svgPoint((a.x+b.x)/2,(a.y+b.y)/2); zoomAt(lastDist/d,mid.x,mid.y);}
+    lastDist=d; dragMoved=true;
+    if(!captured){try{svg.setPointerCapture(e.pointerId);captured=true}catch(err){}}
+  }
+});
+function endPtr(e){
+  delete ptrs[e.pointerId];
+  if(Object.keys(ptrs).length<2) lastDist=0;
+  if(!Object.keys(ptrs).length){
+    svg.classList.remove("dragging");
+    if(captured){try{svg.releasePointerCapture(e.pointerId)}catch(err){}captured=false}
+    setTimeout(function(){dragMoved=false},0);
+  }
+}
+svg.addEventListener("pointerup",endPtr);
+svg.addEventListener("pointercancel",endPtr);
+svg.addEventListener("pointerleave",function(e){endPtr(e);hideTip()});
+
+document.getElementById("zin").onclick=function(){hideTip();zoomAt(0.7,vb.x+vb.w/2,vb.y+vb.h/2)};
+document.getElementById("zout").onclick=function(){hideTip();zoomAt(1.42,vb.x+vb.w/2,vb.y+vb.h/2)};
+document.getElementById("zreset").onclick=function(){hideTip();goHome()};
+function goHome(){vb={x:HOME.x,y:HOME.y,w:HOME.w,h:HOME.h};applyVB()}
+function flyTo(x,y,w){
+  var nw=Math.max(BASE.w*0.16,w);
+  vb.w=nw; vb.h=nw*(HOME.h/HOME.w);
+  vb.x=x-vb.w/2; vb.y=y-vb.h/2; clampVB(); applyVB();
+}
+
+/* ============ ПАНЕЛЬ ============ */
+var pbody=document.getElementById("pbody"),
+    ptitle=document.getElementById("ptitle"),
+    psub=document.getElementById("psub"),
+    back=document.getElementById("back"),
+    peek=document.getElementById("peek"),
+    countEl=document.getElementById("count"),
+    grabber=document.getElementById("grabber");
+
+var active=null, filters={dine:{full:true,part:true,self:true},stay:{hotel:true,rooms:true,house:true}};
+var isMobile=function(){return window.matchMedia("(max-width:880px)").matches};
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function mapsUrl(p){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.name+", "+p.addr)}
+
+var STAY={hotel:"Отель на месте",rooms:"Комнаты у винодела",house:"Домик / апартамент"};
+function passes(p){return filters.dine[p.dine]&&filters.stay[p.stay]}
+function visible(){return PLACES.filter(passes)}
+
+function renderList(){
+  var vis=visible();
+  var h='<div class="list">';
+  PLACES.forEach(function(p){
+    var d=DINE[p.dine], hide=passes(p)?"":" hidden";
+    h+='<button class="lrow'+hide+'" data-n="'+p.n+'">'+
+       '<span class="idx">'+(p.n<10?"0":"")+p.n+'</span>'+
+       '<span><span class="nm">'+esc(p.name)+'</span>'+
+       '<span class="mt"><span class="sq '+d.cls+'"></span>'+esc(d.label)+' · '+esc(p.region)+'</span>'+
+       '<span class="mt"><span class="stay">'+esc(STAY[p.stay])+'</span></span></span>'+
+       '<span class="rowprice">'+esc(p.price)+'</span></button>';
+  });
+  h+='</div><div class="foot">Данные собраны 8 сентября 2026 из сайтов объектов и площадок бронирования. Цены на Booking проверены на даты 9–11 октября 2026 (2 гостя) и меняются в зависимости от сезона и дат — подтверждайте перед поездкой. Точки на карте поставлены по адресам с точностью до населённого пункта; для навигации пользуйтесь ссылкой «Открыть в Google Maps» в карточке.</div>';
+  pbody.innerHTML=h;
+  pbody.querySelectorAll(".lrow").forEach(function(b){
+    b.addEventListener("click",function(){select(+b.dataset.n)});
+    b.addEventListener("mouseenter",function(){hover(+b.dataset.n,true)});
+    b.addEventListener("mouseleave",function(){hover(+b.dataset.n,false)});
+  });
+  ptitle.textContent="Все виноградники";
+  psub.textContent=vis.length===PLACES.length?"Нажмите точку на карте или строку в списке":"Показано "+vis.length+" из "+PLACES.length;
+  countEl.textContent=vis.length+" из "+PLACES.length+" мест";
+  peek.textContent="Список · "+vis.length+" мест ↑";
+}
+
+function renderDetail(p){
+  var d=DINE[p.dine];
+  var h='<div class="detail"><div class="dhero">'+
+    '<div class="eyebrow"><span>'+(p.n<10?"0":"")+p.n+'</span><span>'+esc(p.region)+'</span>'+
+    '<span class="badge"><span class="sq '+d.cls+'"></span>'+esc(d.label)+'</span>'+
+    '<span class="badge">'+esc(STAY[p.stay])+'</span></div>'+
+    '<h2>'+esc(p.name)+'</h2><p class="lede">'+esc(p.lede)+'</p>'+
+    '<div class="pricetag"><span class="pv">'+esc(p.price)+'</span><span class="pn">'+esc(p.pnote)+'</span></div></div>';
+
+  h+='<div class="sec"><h3>Ужин</h3><p>'+esc(p.dinner)+'</p></div>';
+  h+='<div class="sec"><h3>Ночлег</h3><p>'+esc(p.sleep)+'</p></div>';
+
+  h+='<div class="sec"><h3>Коротко</h3><dl class="facts">';
+  h+='<dt>Адрес</dt><dd>'+esc(p.addr)+'</dd>';
+  p.extra.forEach(function(e){h+='<dt>'+esc(e[0])+'</dt><dd class="'+(/\d/.test(e[1])&&e[1].indexOf("zł")>-1?"price":"")+'">'+esc(e[1])+'</dd>'});
+  h+='</dl></div>';
+
+  h+='<div class="sec"><h3>Забронировать</h3><div class="links">';
+  p.book.forEach(function(b,i){
+    h+='<a class="btn'+(i===0?" primary":"")+'" href="'+esc(b[1])+'" target="_blank" rel="noopener">'+
+       '<span class="ico">'+(i===0?"◆":"↗")+'</span><span class="txt"><b>'+esc(b[0])+'</b><span>'+esc(b[2])+'</span></span></a>';
+  });
+  h+='</div></div>';
+
+  h+='<div class="sec"><h3>Связаться</h3><div class="links">';
+  if(p.tel.length){
+    p.tel.forEach(function(t){
+      h+='<a class="btn" href="tel:'+t[0].replace(/\s/g,"")+'"><span class="ico">☎</span>'+
+         '<span class="txt"><b class="tel">'+esc(t[0])+'</b><span>'+esc(t[1])+'</span></span></a>';
+    });
+  }
+  if(p.mail){
+    h+='<a class="btn" href="mailto:'+esc(p.mail)+'"><span class="ico">✉</span>'+
+       '<span class="txt"><b>E-mail</b><span>'+esc(p.mail)+'</span></span></a>';
+  }
+  h+='<a class="btn" href="'+esc(p.web[1])+'" target="_blank" rel="noopener"><span class="ico">▤</span>'+
+     '<span class="txt"><b>Сайт</b><span>'+esc(p.web[0])+'</span></span></a>';
+  h+='<a class="btn" href="'+esc(mapsUrl(p))+'" target="_blank" rel="noopener"><span class="ico">◎</span>'+
+     '<span class="txt"><b>Открыть в Google Maps</b><span>'+esc(p.place)+'</span></span></a>';
+  h+='</div></div>';
+
+  if(!p.tel.length){
+    h+='<div class="note">Телефон объект публично не указывает — пишите на e-mail или бронируйте через площадку выше.</div>';
+  }
+  h+='</div>';
+  pbody.innerHTML=h;
+  pbody.scrollTop=0;
+  ptitle.textContent=p.name.replace(/^Winnica /,"");
+  psub.textContent=p.place;
+}
+
+function hover(n,on){
+  if(n===active) return;                 /* выбранную точку подсветка не гасит */
+  pins.forEach(function(r){ if(r.p.n===n) r.g.classList.toggle("active",on); });
+}
+/* наведение на маркер подсвечивает строку в списке и наоборот */
+function highlightRow(n,on){
+  var row=pbody.querySelector('.lrow[data-n="'+n+'"]');
+  if(!row) return;
+  row.classList.toggle("hl",on);
+  if(on&&!document.body.classList.contains("detail")){
+    var pr=pbody.getBoundingClientRect(), rr=row.getBoundingClientRect();
+    if(rr.top<pr.top||rr.bottom>pr.bottom) row.scrollIntoView({block:"nearest",behavior:"smooth"});
+  }
+}
+
+function select(n){
+  var p=PLACES.filter(function(x){return x.n===n})[0];
+  if(!p) return;
+  active=n;
+  document.body.classList.add("detail");
+  pins.forEach(function(r){r.g.classList.toggle("active",r.p.n===n)});
+  var top=pins.filter(function(x){return x.p.n===n})[0];
+  gPins.appendChild(top.g);              /* активный маркер рисуем поверх соседей */
+  renderDetail(p);
+  back.textContent=isMobile()?"← К карте":"← Все места";
+  var r=pins.filter(function(x){return x.p.n===n})[0];
+  if(vb.w>HOME.w*0.9) flyTo(r.x,r.y,HOME.w*0.45); 
+  openSheet(true);
+}
+
+function unselect(){
+  active=null;
+  document.body.classList.remove("detail");
+  pins.forEach(function(r){r.g.classList.remove("active")});
+  renderList();
+  if(isMobile()) openSheet(false);
+}
+back.addEventListener("click",unselect);
+
+/* фильтры */
+document.querySelectorAll(".chip").forEach(function(c){
+  c.addEventListener("click",function(){
+    var g=c.dataset.g, f=c.dataset.f, on=c.getAttribute("aria-pressed")==="true";
+    var others=Object.keys(filters[g]).filter(function(k){return k!==f&&filters[g][k]});
+    if(on&&!others.length) return;          /* последний включённый чип в группе не гасим */
+    filters[g][f]=!on; c.setAttribute("aria-pressed",String(!on));
+    pins.forEach(function(r){r.g.classList.toggle("dim",!passes(r.p))});
+    var cur=active&&PLACES.filter(function(x){return x.n===active})[0];
+    if(cur&&!passes(cur)) unselect();
+    else if(!active) renderList();
+    else{
+      var vis=visible();
+      countEl.textContent=vis.length+" из "+PLACES.length+" мест";
+      peek.textContent="Список · "+vis.length+" мест ↑";
+    }
+  });
+});
+
+/* мобильный лист */
+function openSheet(open){
+  if(!isMobile()){document.body.classList.remove("sheet-open");return}
+  document.body.classList.toggle("sheet-open",open);
+}
+grabber.addEventListener("click",function(){
+  document.body.classList.toggle("sheet-open");
+});
+/* свайп по «ручке» */
+var sy=null;
+grabber.addEventListener("pointerdown",function(e){sy=e.clientY});
+grabber.addEventListener("pointerup",function(e){
+  if(sy===null) return;
+  var dy=e.clientY-sy; sy=null;
+  if(dy>24) document.body.classList.remove("sheet-open");
+  else if(dy<-24) document.body.classList.add("sheet-open");
+});
+
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){ if(document.body.classList.contains("detail")) unselect(); else openSheet(false); }
+});
+window.addEventListener("resize",function(){
+  fitAspect(); clampVB(); applyVB();
+  if(active) back.textContent=isMobile()?"← К карте":"← Все места";
+  if(!isMobile()) document.body.classList.remove("sheet-open");
+});
+
+var userZoomed=false;
+svg.addEventListener("wheel",function(){userZoomed=true},{passive:true});
+["zin","zout"].forEach(function(id){document.getElementById(id).addEventListener("click",function(){userZoomed=true})});
+document.getElementById("zreset").addEventListener("click",function(){userZoomed=false});
+
+function relayout(){
+  fitAspect();
+  if(userZoomed){clampVB(); applyVB();} else {goHome();}
+}
+if(window.ResizeObserver){
+  var ro=new ResizeObserver(function(){relayout()});
+  ro.observe(document.getElementById("mapwrap"));
+}
+window.addEventListener("load",relayout);
+
+/* старт */
+relayout(); renderList();
+requestAnimationFrame(relayout);
+})();
+</script>
