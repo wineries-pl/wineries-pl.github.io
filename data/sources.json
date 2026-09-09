@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "collected": "2026-09-08",
+    "price_probe": {
+      "checkin": "2026-10-09",
+      "checkout": "2026-10-11",
+      "nights": 2,
+      "adults": 2,
+      "rooms": 1,
+      "currency": "PLN"
+    },
+    "note": "status и confidence отражают то, что реально удалось получить в сентябре 2026. Всё, что помечено low или slug_unknown, при автоматизации нужно перепроверять первым делом."
+  },
+  "conventions": {
+    "status": {
+      "ok": "источник открылся и отдал нужное значение",
+      "needs_dates": "цены появляются только после выбора дат в виджете",
+      "no_public_prices": "объект не публикует прайс, цена только по запросу",
+      "slug_unknown": "идентификатор объекта у провайдера подобрать не удалось",
+      "blocked": "источник не открылся из окружения, в котором собирали",
+      "site_down": "сайт объекта не работает"
+    },
+    "confidence": {
+      "high": "значение снято прямо со страницы источника",
+      "medium": "значение со страницы, но частично (обрезанный контент, витрина без разбивки)",
+      "low": "значение пришло из поисковой выдачи, а не с самой страницы — проверить первым делом"
+    },
+    "price_normalization": "price_per_night = total / nights. Отмечать, входит ли завтрак и на скольких гостей рассчитана цена."
+  },
+  "places": [
+    {
+      "n": 1,
+      "key": "maria-anna",
+      "name": "Winnica Maria Anna",
+      "sources": [
+        { "provider": "self", "type": "contacts", "url": "https://winnicapodkarpacie.pl/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "tasting_prices", "baskets"], "verified": "2026-09-08" },
+        { "provider": "booking.com", "type": "price", "id": "winnica-maria-anna-wyzne1", "url": "https://www.booking.com/hotel/pl/winnica-maria-anna-wyzne1.pl.html", "fetch": "browser", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "Прямой URL редиректит на выдачу по Wyżne. У хозяйства ЧЕТЫРЕ отдельных листинга, цены за 2 ночи / 2 гостей: «Hotel Winnica Maria Anna» 610 zł, «Domki Winnica Maria Anna» 798 zł, «Willa Winnica Maria Anna» 1774 zł, «Domki Winne Tarasy» 1597 zł. Собирать все четыре." },
+        { "provider": "bed-booking", "type": "booking_engine", "url": "https://winnica-maria-anna.bed-booking.com", "fetch": "browser", "status": "unverified", "confidence": "low", "note": "Собственный движок брони; на извлечение цен не проверялся" }
+      ]
+    },
+    {
+      "n": 2,
+      "key": "mierzecin",
+      "name": "Pałac Mierzęcin Wellness & Wine Resort",
+      "sources": [
+        { "provider": "self", "type": "contacts", "url": "https://www.palacmierzecin.pl/kontakt/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "gps", "restaurants"], "verified": "2026-09-08" },
+        { "provider": "self", "type": "price", "url": "https://www.palacmierzecin.pl/poznaj-palac-mierzecin/pokoje", "fetch": "static", "status": "ok", "confidence": "medium", "verified": "2026-09-08",
+          "note": "Диапазон 360–620 zł получен из витрины номеров и пакетов; прямой фетч именно этой страницы не делали — при автоматизации взять цены с карточек номеров и со страницы pakiety" },
+        { "provider": "booking.com", "type": "price", "id": "paaac-mierzacin-wellnes-amp-wine-resort", "url": "https://www.booking.com/hotel/pl/paaac-mierzacin-wellnes-amp-wine-resort.pl.html", "fetch": "browser", "status": "unverified", "confidence": "low", "note": "Slug известен из выдачи, замер цены не делали" }
+      ]
+    },
+    {
+      "n": 3,
+      "key": "poziom-511",
+      "name": "Poziom 511 + Winnica Białe Skały",
+      "sources": [
+        { "provider": "self", "type": "contacts", "url": "https://www.poziom511.pl/kontakt", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "address"], "verified": "2026-09-08" },
+        { "provider": "self", "type": "vineyard", "url": "https://bialeskaly.pl/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["vineyard", "enotourism"], "verified": "2026-09-08" },
+        { "provider": "google_hotels", "type": "price", "url": "https://www.google.com/travel/search?q=Poziom%20511%20Podzamcze&currency=PLN", "fetch": "browser", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "671 PLN за ночь (даты 6–7 декабря, подставлены Google по умолчанию); в списке офферов Booking.com 775 PLN и Expedia 856–908 PLN за двухместный с завтраком" },
+        { "provider": "booking.com", "type": "price", "id": null, "status": "slug_unknown", "confidence": "low",
+          "note": "Пробовали poziom-511-design-hotel-amp-spa — пустая страница. Slug искать через выдачу Booking по Podzamcze или через ссылку из Google Hotels" },
+        { "provider": "obvio", "type": "booking_engine", "url": "https://poziom511.obvio.app/", "fetch": "browser", "status": "blocked", "confidence": "low", "note": "В используемом окружении страница не открылась" }
+      ]
+    },
+    {
+      "n": 4,
+      "key": "dwor-sanna",
+      "name": "Dwór Sanna",
+      "sources": [
+        { "provider": "self", "type": "price", "url": "https://www.dworsanna.pl/hotel/cennik/", "fetch": "static", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "Эталонный случай: полный прайс статическим HTML. Сезоны (лето 01.05–30.09 / зима 01.10–30.04), будни и выходные, категории номеров по сортам винограда, фольварк, доп. место 140 zł, животное 50 zł" },
+        { "provider": "self", "type": "contacts", "url": "https://www.dworsanna.pl/kontakt/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "gps"], "verified": "2026-09-08" },
+        { "provider": "booking.com", "type": "price", "id": "dwor-sanna", "url": "https://www.booking.com/hotel/pl/dwor-sanna.pl.html", "fetch": "browser", "status": "unverified", "confidence": "low" }
+      ]
+    },
+    {
+      "n": 5,
+      "key": "mala-wies",
+      "name": "Pałac Mała Wieś",
+      "sources": [
+        { "provider": "self", "type": "contacts", "url": "https://palacmalawies.pl/kontakt/skontaktuj-sie", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "address"], "verified": "2026-09-08" },
+        { "provider": "booking.com", "type": "price", "id": "palac-mala-wies", "url": "https://www.booking.com/hotel/pl/palac-mala-wies.pl.html", "fetch": "browser", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "На пробные даты мест не было; значения сняты из блока «Alternatywne terminy»: 824–989 zł за 1 ночь, 1703 zł за 2 ночи. Название объекта на Booking — «Hotel & Spa Pałac Mała Wieś»" }
+      ]
+    },
+    {
+      "n": 6,
+      "key": "turnau",
+      "name": "Winnica Turnau",
+      "sources": [
+        { "provider": "self", "type": "price", "url": "https://www.winnicaturnau.pl/pl/enoturystyka-zwiedzanie-winnicy-winnica-turnau-4", "fetch": "static", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "Одна страница содержит и прайс ночлега (250/300/1500 zł, доп. место 150 zł), и цену экскурсии с дегустацией (150 zł), и сезон 15.04–31.10" }
+      ]
+    },
+    {
+      "n": 7,
+      "key": "plochockich",
+      "name": "Winnica Płochockich",
+      "sources": [
+        { "provider": "self", "type": "rooms", "url": "https://winnicaplochockich.pl/nocleg/", "fetch": "static", "status": "ok", "confidence": "medium", "verified": "2026-09-08" },
+        { "provider": "self", "type": "contacts", "url": "https://winnicaplochockich.pl/kontakt/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "address"], "verified": "2026-09-08" },
+        { "provider": "self", "type": "price", "value_seen": "от 150 zł за двухместный", "status": "ok", "confidence": "low",
+          "note": "Значение пришло из поисковой выдачи, не с самой страницы. При автоматизации проверить страницы /nocleg/ и /nocleg-w-winnicy/ напрямую" }
+      ]
+    },
+    {
+      "n": 8,
+      "key": "jerzmanice",
+      "name": "Winnica Jerzmanice Zdrój",
+      "sources": [
+        { "provider": "self", "type": "site", "url": "https://www.winnicajerzmanice.pl/", "fetch": "static", "status": "site_down", "confidence": "high", "verified": "2026-09-08",
+          "note": "Отдаёт дефолтную заглушку хостинга. Проверять при каждом обновлении — если поднимут, это станет основным источником" },
+        { "provider": "slowhop", "type": "price", "id": "3378", "url": "https://slowhop.com/pl/miejsca/3378-winnica-jerzmanice.html", "fetch": "browser", "status": "ok", "confidence": "medium", "verified": "2026-09-08",
+          "note": "700 zł за домик до 2 человек, +200 zł за каждого следующего. Через статический фетч страница обрезается — читать браузером" }
+      ]
+    },
+    {
+      "n": 9,
+      "key": "witaj-slonce",
+      "name": "Winnica Witaj Słońce",
+      "sources": [
+        { "provider": "self", "type": "rooms", "url": "https://winnicawitajslonce.pl/pokoje/", "fetch": "browser", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "Age-gate: модалка «Czy masz ukończone 18 lat?» с кнопкой «Tak» — кликнуть до чтения контента. Текст рендерится скриптом, get_page_text отдаёт пусто, читать со скриншота" },
+        { "provider": "self", "type": "price", "url": "https://winnicawitajslonce.pl/rezerwacje/", "fetch": "browser", "status": "no_public_prices", "confidence": "high", "verified": "2026-09-08",
+          "note": "Только форма запроса и телефоны (Arek 665 381 430, Sylwia 608 368 865). Прайса нет нигде на сайте" }
+      ]
+    },
+    {
+      "n": 10,
+      "key": "sztukowka",
+      "name": "Winnica Sztukówka",
+      "sources": [
+        { "provider": "self", "type": "contacts", "url": "https://www.sztukowka.pl/kontakt", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "address"], "verified": "2026-09-08" },
+        { "provider": "booking.com", "type": "price", "id": "winnica-sztukowka", "url": "https://www.booking.com/hotel/pl/winnica-sztukowka.pl.html", "fetch": "browser", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "На пробные даты мест не было; «Alternatywne terminy» дают устойчивое «2 noce · Od 918 zł» на всю вторую половину октября. Там же видно, что завтрак à la carte подают на месте" },
+        { "provider": "slowhop", "type": "price", "id": "3165", "url": "https://slowhop.com/pl/miejsca/3165-winnica-sztukowka.html", "fetch": "browser", "status": "unverified", "confidence": "low", "note": "Статический фетч обрезался; браузером не проверяли" }
+      ]
+    },
+    {
+      "n": 11,
+      "key": "dwie-granice",
+      "name": "Winnica Dwie Granice",
+      "sources": [
+        { "provider": "self", "type": "description", "url": "https://www.winnicadwiegranice.pl/enoturystyka/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["rooms", "phone"], "verified": "2026-09-08" },
+        { "provider": "nocowanie.pl", "type": "price", "id": "1505571", "url": "https://www.nocowanie.pl/rezerwuj/1505571-agroturystyka-winnica-dwe-granice/", "fetch": "browser", "status": "needs_dates", "confidence": "high", "verified": "2026-09-08",
+          "note": "Видны типы размещения (апартамент 4-местный 20 м², номер 2-местный Premium), но вместо цен «Wybierz daty». Для автоматизации нужен клик по календарю — URL-параметров дат найти не удалось. В листинге опечатка в названии: «Dwe Granice»" }
+      ]
+    },
+    {
+      "n": 12,
+      "key": "chronow",
+      "name": "Winnica Chronów",
+      "sources": [
+        { "provider": "self", "type": "price", "url": "https://www.winnicachronow.pl/nocleg-na-winnicy-ma%C5%82opolska", "fetch": "static", "status": "ok", "confidence": "high", "verified": "2026-09-08",
+          "note": "Полный прайс на странице: 200/240/280 zł за 2/3/4 человек, уборка 60 zł за визит, животное 20 zł/сутки. В URL кириллицы нет, но есть польские диакритики — нужен percent-encoding" },
+        { "provider": "self", "type": "enotourism", "url": "https://www.winnicachronow.pl/degustacja-win-ma%C5%82opolska", "fetch": "static", "status": "ok", "confidence": "high", "verified": "2026-09-08" }
+      ]
+    }
+  ]
+}

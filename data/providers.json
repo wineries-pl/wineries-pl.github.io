@@ -1,0 +1,80 @@
+{
+  "$comment": "Каналы, из которых берутся данные. fetch=static — обычный HTTP + парсинг HTML; fetch=browser — нужен реальный браузер с JS.",
+  "providers": {
+    "self": {
+      "label": "Сайт объекта",
+      "fetch": "static",
+      "notes": "Самый надёжный источник прайса, когда он вообще опубликован. Часть сайтов — SPA или с age-gate, тогда нужен браузер.",
+      "provides": ["price", "phone", "email", "rooms", "season", "dining"]
+    },
+    "booking.com": {
+      "label": "Booking.com",
+      "fetch": "browser",
+      "url_template": "https://www.booking.com/hotel/pl/{slug}.pl.html?checkin={checkin}&checkout={checkout}&group_adults={adults}&no_rooms=1&group_children=0&selected_currency=PLN",
+      "search_url_template": "https://www.booking.com/searchresults.pl.html?ss={query}&checkin={checkin}&checkout={checkout}&group_adults={adults}&no_rooms=1&selected_currency=PLN",
+      "provides": ["price", "rooms", "rating"],
+      "extraction": {
+        "available": "Таблица «Typ pokoju | Liczba gości | Cena»: строка типа номера и итог за весь период",
+        "unavailable": "Блок «Alternatywne terminy» — карточки вида «2 noce · Od 918 zł»; это минимум по соседним датам",
+        "search_page": "Карточка объекта содержит «{nights} noce, {adults} dorosłych» и следом сумму «X zł»; при скидке идут две цены — старая и текущая",
+        "currency_note": "Суммы включают налоги и сборы («Zawiera opłaty i podatki»)"
+      },
+      "pitfalls": [
+        "Обычный HTTP-fetch отдаёт пустую страницу — цены рендерятся скриптом",
+        "Поиск по названию (?ss=) часто уводит на главную с errorc_searchstring_not_found — пользуйтесь прямым URL отеля",
+        "Прямой URL отеля может редиректить на выдачу по населённому пункту; тогда объект ищется среди карточек по имени",
+        "У одного винодельческого хозяйства бывает несколько листингов (номера, домики, вилла) — их надо собирать все",
+        "Неверный slug отдаёт пустую страницу без ошибки — проверяйте, что заголовок вкладки содержит имя объекта"
+      ]
+    },
+    "google_hotels": {
+      "label": "Google Hotels",
+      "fetch": "browser",
+      "url_template": "https://www.google.com/travel/search?q={query}&currency=PLN",
+      "provides": ["price", "rating"],
+      "extraction": {
+        "headline": "Крупная плашка «X PLN» с подписью дат справа от названия",
+        "offers": "Список провайдеров (Booking.com, Expedia) с ценой за выбранный период и типом номера",
+        "controls": "Даты меняются полями Check-in / Check-out; по умолчанию подставляются ближайшие"
+      },
+      "pitfalls": [
+        "Запасной вариант, когда slug на Booking подобрать не удалось",
+        "Даты по умолчанию — не те, что нужны; фиксируйте их явно или записывайте, на какие даты снят замер"
+      ]
+    },
+    "slowhop": {
+      "label": "Slowhop",
+      "fetch": "browser",
+      "url_template": "https://slowhop.com/pl/miejsca/{id}-{slug}.html",
+      "provides": ["price", "rooms", "description"],
+      "pitfalls": [
+        "Страница длинная, при статическом фетче содержимое обрезается — читайте через браузер",
+        "Цена обычно в формате «X zł за dobę do 2 osób, każda kolejna osoba +Y zł»"
+      ]
+    },
+    "nocowanie.pl": {
+      "label": "Nocowanie.pl",
+      "fetch": "browser",
+      "url_template": "https://www.nocowanie.pl/rezerwuj/{id}-{slug}/",
+      "provides": ["price", "rooms", "description"],
+      "pitfalls": [
+        "Без выбранных дат цены не показываются вовсе: «Wybierz daty, aby zobaczyć ceny i dostępność»",
+        "Даты задаются виджетом календаря, URL-параметров для них найти не удалось — нужен клик по календарю"
+      ]
+    },
+    "bed-booking": {
+      "label": "BedBooking (движок брони объекта)",
+      "fetch": "browser",
+      "url_template": "https://{subdomain}.bed-booking.com",
+      "provides": ["price", "availability"],
+      "pitfalls": ["Не проверялся на извлечение цен — только как ссылка для гостя"]
+    },
+    "obvio": {
+      "label": "Obvio (движок брони отеля)",
+      "fetch": "browser",
+      "url_template": "https://{subdomain}.obvio.app/",
+      "provides": ["price", "availability"],
+      "pitfalls": ["В расширении claude-in-chrome страница отдала error page — открывать обычным браузером"]
+    }
+  }
+}
