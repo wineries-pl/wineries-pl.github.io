@@ -4,7 +4,7 @@
 12 объектов: контакты, цены на ночлег, формат ужина, ссылки на бронирование.
 
 **Опубликованный артефакт:** https://claude.ai/code/artifact/a0fd8b95-7c3e-4bda-872e-c75ffe9a15cc
-**Сайт на GitHub Pages:** https://wineries-pl.github.io/
+**Сайт на GitHub Pages:** https://wineries-pl.github.io/ (`/pl/`, `/en/`, `/ru/`)
 
 ## Что внутри
 
@@ -61,10 +61,20 @@ node -e 'new Function(require("fs").readFileSync("artifact/winnice-polska.html",
 иначе создастся новая страница с новым адресом.
 
 **GitHub Pages** — репозиторий `wineries-pl/wineries-pl.github.io`. Каждый пуш в `main` запускает
-`.github/workflows/pages.yml`: он склеивает `site/head.html` + `artifact/winnice-polska.html` +
-`site/foot.html` в `index.html` и выкладывает его. Артефакт — фрагмент без `<head>` (claude.ai
-оборачивает его сам), поэтому `<head>` с charset, viewport и SEO-метатегами живёт в `site/head.html`.
-Править страницу — только в `artifact/winnice-polska.html`.
+`.github/workflows/pages.yml`, который вызывает `node site/build.mjs _site`. Скрипт оборачивает
+`artifact/winnice-polska.html` в полноценную страницу на каждый язык — `/pl/`, `/en/`, `/ru/` со
+своими title, description, canonical и hreflang. Корень `/` перенаправляет на язык из
+`localStorage` (`winnice-lang`), по умолчанию на `/en/`. Ещё скрипт пишет `sitemap.xml` и
+`robots.txt`, `favicon.svg`. В `<head>` — Open Graph и Twitter Card с картинками `site/og-<lang>.png`
+(скриншоты 1200×630; переснять после заметных правок карты) и JSON-LD `ItemList` мест из `PLACES`/`TX`.
+Собрать локально: `node site/build.mjs /tmp/site`. Править страницу — только в
+`artifact/winnice-polska.html`.
+
+**Языки.** Тексты разнесены по трём словарям внутри страницы: `UI[lang]` — интерфейс,
+`TX[lang][n-1]` — описания мест. В `PLACES` остались только языконезависимые поля: координаты,
+адреса, телефоны и ссылки. Топонимы на карте и названия объектов во всех версиях польские.
+На сайте язык задаёт путь, внутри артефакта переключатель меняет язык на месте. Новое место
+добавляется в `PLACES` и в каждый из `TX.pl`, `TX.en`, `TX.ru` по тому же индексу.
 
 Пуш идёт от пользователя `wineries-pl`: ключ `~/.ssh/github_winnice` подключается через
 `[includeIf "gitdir:~/a0s_github/winnice-pl/"]` → `~/.gitconfig-wineries-pl` (`core.sshCommand`

@@ -1,4 +1,4 @@
-<title>Winnice w Polsce — ужин и ночлег на винограднике</title>
+<title>Winnice w Polsce · Polish wineries · Винодельни Польши</title>
 <style>
 :root{
   --ground:#E4E8E1;
@@ -95,6 +95,10 @@ button{font:inherit;color:inherit}
 .topbar h1{font-size:19px;letter-spacing:-.015em}
 .topbar h1 .accent{color:var(--accent)}
 .tagline{font-size:12.5px;color:var(--muted);letter-spacing:.01em}
+.langs{display:flex;gap:2px;align-self:center;font-family:var(--f-data);font-size:11px;letter-spacing:.06em}
+.langs a{color:var(--muted);text-decoration:none;padding:3px 6px;border-radius:4px}
+.langs a:hover{color:var(--ink)}
+.langs a[aria-current]{color:var(--accent-ink);background:var(--accent)}
 .count{
   margin-left:auto;font-family:var(--f-data);font-size:11px;letter-spacing:.06em;
   text-transform:uppercase;color:var(--muted);white-space:nowrap;
@@ -386,47 +390,50 @@ body.detail .backbtn{display:inline-flex}
 </style>
 
 <header class="topbar">
-  <h1>Kolacja i nocleg <span class="accent">w winnicy</span></h1>
-  <span class="tagline">12 польских виноделен, где можно поужинать и остаться на ночь</span>
-  <span class="count" id="count">12 мест</span>
+  <h1><span data-i="h1"></span> <span class="accent" data-i="h1b"></span></h1>
+  <span class="tagline" data-i="tagline"></span>
+  <span class="count" id="count"></span>
+  <nav class="langs" id="langs" data-ia="lang">
+    <a href="../pl/" hreflang="pl" lang="pl" data-lang="pl">PL</a><a href="../en/" hreflang="en" lang="en" data-lang="en">EN</a><a href="../ru/" hreflang="ru" lang="ru" data-lang="ru">RU</a>
+  </nav>
 </header>
 
-<nav class="filters" aria-label="Фильтры">
+<nav class="filters" data-ia="filters">
   <div class="fgroup">
-    <span class="flabel">Ужин</span>
-    <button class="chip" data-g="dine" data-f="full" aria-pressed="true"><span class="mark"></span><span class="dot d-full"></span>Ресторан на месте</button>
-    <button class="chip" data-g="dine" data-f="part" aria-pressed="true"><span class="mark"></span><span class="dot d-part"></span>Ужин по заказу</button>
-    <button class="chip" data-g="dine" data-f="self" aria-pressed="true"><span class="mark"></span><span class="dot d-self"></span>Своя кухня / гриль</button>
+    <span class="flabel" data-i="dine"></span>
+    <button class="chip" data-g="dine" data-f="full" aria-pressed="true"><span class="mark"></span><span class="dot d-full"></span><span data-i="d_full"></span></button>
+    <button class="chip" data-g="dine" data-f="part" aria-pressed="true"><span class="mark"></span><span class="dot d-part"></span><span data-i="d_part"></span></button>
+    <button class="chip" data-g="dine" data-f="self" aria-pressed="true"><span class="mark"></span><span class="dot d-self"></span><span data-i="d_self"></span></button>
   </div>
   <div class="fgroup">
-    <span class="flabel">Ночлег</span>
-    <button class="chip" data-g="stay" data-f="hotel" aria-pressed="true"><span class="mark"></span>Отель на месте</button>
-    <button class="chip" data-g="stay" data-f="rooms" aria-pressed="true"><span class="mark"></span>Комнаты у винодела</button>
-    <button class="chip" data-g="stay" data-f="house" aria-pressed="true"><span class="mark"></span>Домик / апартамент</button>
+    <span class="flabel" data-i="stay"></span>
+    <button class="chip" data-g="stay" data-f="hotel" aria-pressed="true"><span class="mark"></span><span data-i="s_hotel"></span></button>
+    <button class="chip" data-g="stay" data-f="rooms" aria-pressed="true"><span class="mark"></span><span data-i="s_rooms"></span></button>
+    <button class="chip" data-g="stay" data-f="house" aria-pressed="true"><span class="mark"></span><span data-i="s_house"></span></button>
   </div>
 </nav>
 
 <div class="shell">
   <div class="mapwrap" id="mapwrap">
-    <svg class="map" id="map" role="application" aria-label="Карта Польши с винодельнями"></svg>
+    <svg class="map" id="map" role="application" data-ia="map"></svg>
     <div class="mapctl">
-      <button class="iconbtn" id="zin" aria-label="Приблизить">+</button>
-      <button class="iconbtn" id="zout" aria-label="Отдалить">−</button>
-      <button class="iconbtn wide" id="zreset" aria-label="Показать всю Польшу">Вся Польша</button>
+      <button class="iconbtn" id="zin" data-ia="zin">+</button>
+      <button class="iconbtn" id="zout" data-ia="zout">−</button>
+      <button class="iconbtn wide" id="zreset" data-ia="zresetA" data-i="zreset"></button>
     </div>
-    <div class="maphint">Колесо — масштаб · перетаскивание — сдвиг · клик по точке — детали</div>
+    <div class="maphint" data-i="hint"></div>
   </div>
 
   <aside class="panel" id="panel">
-    <button class="grabber" id="grabber" aria-label="Открыть или закрыть список">
+    <button class="grabber" id="grabber" data-ia="grab">
       <span class="bar"></span>
-      <span class="peek" id="peek">Список мест ↑</span>
+      <span class="peek" id="peek"></span>
     </button>
     <div class="panelhead">
-      <button class="backbtn" id="back">← К карте</button>
+      <button class="backbtn" id="back"></button>
       <div>
-        <h2 id="ptitle">Все виноградники</h2>
-        <div class="sub" id="psub">Нажмите точку на карте или строку в списке</div>
+        <h2 id="ptitle"></h2>
+        <div class="sub" id="psub"></div>
       </div>
     </div>
     <div class="panelbody" id="pbody"></div>
@@ -438,145 +445,410 @@ body.detail .backbtn{display:inline-flex}
 "use strict";
 
 /* ============ ДАННЫЕ ============ */
+/* языконезависимые поля; тексты на каждом языке — в TX[lang][n-1] */
 var PLACES = [
- {n:1,name:"Winnica Maria Anna",region:"Подкарпатье",place:"Wyżne k. Czudca",lat:49.928,lon:21.836,dine:"full",stay:"hotel",price:"от 305 zł/ночь",pnote:"Booking, 9–11.10.2026: номер на двоих 610 zł за 2 ночи (≈305 zł/ночь), домик 798 zł за 2 ночи (≈400 zł), вилла-апартамент 90 м² 1774 zł за 2 ночи (≈887 zł).",lp:{dx:17,dy:-1,a:"start"},
+ {n:1,name:"Winnica Maria Anna",place:"Wyżne k. Czudca",lat:49.928,lon:21.836,dine:"full",stay:"hotel",lp:{dx:17,dy:-1,a:"start"},
   addr:"Wyżne, 38-120 Czudec",
+  tel:["+48 665 667 700","+48 790 590 626","+48 603 113 114"],
+  mail:"kontakt@winnicapodkarpacie.pl",
+  web:["winnicapodkarpacie.pl","https://winnicapodkarpacie.pl/"],
+  book:["https://winnica-maria-anna.bed-booking.com","https://www.booking.com/hotel/pl/winnica-maria-anna-wyzne1.html"]},
+ {n:2,name:"Pałac Mierzęcin Wellness & Wine Resort",place:"Mierzęcin k. Dobiegniewa",lat:52.9556,lon:15.8361,dine:"full",stay:"hotel",
+  addr:"Mierzęcin 1, 66-520 Dobiegniew",
+  tel:["+48 95 71 31 500","+48 95 71 31 630","+48 691 728 090"],
+  mail:"recepcja@palacmierzecin.pl",
+  web:["palacmierzecin.pl","https://www.palacmierzecin.pl/"],
+  book:["https://www.booking.com/hotel/pl/paaac-mierzacin-wellnes-amp-wine-resort.html"]},
+ {n:3,name:"Poziom 511 + Winnica Białe Skały",place:"Podzamcze / Ogrodzieniec",lat:50.4525,lon:19.5525,dine:"full",stay:"hotel",
+  addr:"ul. Bonerów 33, 42-440 Podzamcze k. Ogrodzieńca",
+  tel:["+48 32 746 28 00","+48 602 752 171","+48 538 810 957"],
+  mail:"recepcja@poziom511.com",
+  web:["poziom511.pl","https://www.poziom511.pl/"],
+  book:["https://www.poziom511.pl/","https://bialeskaly.pl/"]},
+ {n:4,name:"Dwór Sanna",place:"Wierzchowiska Drugie, gm. Modliborzyce",lat:50.7973,lon:22.4065,dine:"full",stay:"hotel",
+  addr:"Wierzchowiska Drugie 163, 23-310 Modliborzyce",
+  tel:["+48 15 871 61 53","+48 606 112 473","+48 795 461 820"],
+  mail:"recepcja@dworsanna.pl",
+  web:["dworsanna.pl","https://www.dworsanna.pl/"],
+  book:["https://www.booking.com/hotel/pl/dwor-sanna.html","https://www.dworsanna.pl/restauracja/"]},
+ {n:5,name:"Pałac Mała Wieś",place:"Mała Wieś k. Belska Dużego",lat:51.806,lon:20.762,dine:"full",stay:"hotel",
+  addr:"Mała Wieś 40, 05-622 Belsk Duży",
+  tel:["+48 782 40 40 40","+48 48 332 26 70"],
+  mail:"recepcja@palacmalawies.pl",
+  web:["palacmalawies.pl","https://palacmalawies.pl/"],
+  book:["https://palacmalawies.pl/","https://palacmalawies.pl/galerie/restauracja"]},
+ {n:6,name:"Winnica Turnau",place:"Baniewice k. Gryfina",lat:53.1167,lon:14.6333,dine:"part",stay:"rooms",
+  addr:"Baniewice 115, 74-110 Baniewice",
+  tel:["+48 91 307 91 31"],
+  mail:"noclegi@winnicaturnau.pl",
+  web:["winnicaturnau.pl","https://www.winnicaturnau.pl/pl"],
+  book:["https://www.winnicaturnau.pl/pl/enoturystyka-zwiedzanie-winnicy-winnica-turnau-4"]},
+ {n:7,name:"Winnica Płochockich",place:"Daromin k. Sandomierza",lat:50.7444,lon:21.6353,dine:"part",stay:"rooms",
+  addr:"Daromin 2, 27-612 Wilczyce",
+  tel:["+48 504 012 189"],
+  mail:"basia@winnicaplochockich.pl",
+  web:["winnicaplochockich.pl","https://winnicaplochockich.pl/"],
+  book:["https://winnicaplochockich.pl/nocleg/","https://winnicaplochockich.pl/kontakt/"]},
+ {n:8,name:"Winnica Jerzmanice Zdrój",place:"Jerzmanice-Zdrój k. Złotoryi",lat:51.150,lon:15.902,dine:"part",stay:"house",
+  addr:"Jerzmanice Zdrój 78, 59-500 Złotoryja",
+  tel:[],
+  mail:"info@winnicajerzmanice.pl",
+  web:["slowhop.com","https://slowhop.com/pl/miejsca/3378-winnica-jerzmanice.html"],
+  book:["https://slowhop.com/en/places/3378-winnica-jerzmanice.html","https://www.facebook.com/p/WINNICA-JERZMANICE-ZDR%C3%93J-100063557804602/"]},
+ {n:9,name:"Winnica Witaj Słońce",place:"Mnich Probostwo k. Kutna",lat:52.230,lon:19.520,dine:"part",stay:"rooms",
+  addr:"Mnich Probostwo 1, 99-322 Oporów",
+  tel:["+48 665 381 430","+48 608 368 865"],
+  mail:"witaj@winnicawitajslonce.pl",
+  web:["winnicawitajslonce.pl","http://winnicawitajslonce.pl/oferta/"],
+  book:["https://winnicawitajslonce.pl/rezerwacje/","https://winnicawitajslonce.pl/pokoje/"]},
+ {n:10,name:"Winnica Sztukówka",place:"Glinik Średni k. Frysztaka",lat:49.867,lon:21.617,dine:"self",stay:"house",lp:{dx:-17,dy:-1,a:"end"},
+  addr:"Glinik Średni 153, 38-130 Frysztak",
+  tel:["+48 605 539 422"],
+  mail:"winnica@sztukowka.pl",
+  web:["sztukowka.pl","https://www.sztukowka.pl/"],
+  book:["https://www.booking.com/hotel/pl/winnica-sztukowka.html","https://www.sztukowka.pl/enoturystyka"]},
+ {n:11,name:"Winnica Dwie Granice",place:"Przysieki k. Jasła",lat:49.795,lon:21.423,dine:"self",stay:"rooms",
+  addr:"Przysieki 412, 38-207 Przysieki",
+  tel:["+48 606 787 623"],
+  mail:"",
+  web:["winnicadwiegranice.pl","https://www.winnicadwiegranice.pl/enoturystyka/"],
+  book:["https://www.nocowanie.pl/rezerwuj/1505571-agroturystyka-winnica-dwe-granice/","https://www.winnicadwiegranice.pl/enoturystyka/"]},
+ {n:12,name:"Winnica Chronów",place:"Chronów, gm. Nowy Wiśnicz",lat:49.877,lon:20.496,dine:"self",stay:"house",lp:{dx:0,dy:17,a:"middle"},
+  addr:"Chronów, gm. Nowy Wiśnicz, powiat bocheński",
+  tel:[],
+  mail:"winnica.chronow@gmail.com",
+  web:["winnicachronow.pl","https://www.winnicachronow.pl/"],
+  book:["https://www.winnicachronow.pl/nocleg-na-winnicy-ma%C5%82opolska","https://www.winnicachronow.pl/degustacja-win-ma%C5%82opolska"]}
+];
+
+/* tel — подписи к номерам из PLACES[i].tel, book — [название, пояснение] к PLACES[i].book */
+var TX = {
+ru:[
+ {region:"Подкарпатье",price:"от 305 zł/ночь",pnote:"Booking, 9–11.10.2026: номер на двоих 610 zł за 2 ночи (≈305 zł/ночь), домик 798 zł за 2 ночи (≈400 zł), вилла-апартамент 90 м² 1774 zł за 2 ночи (≈887 zł).",
   lede:"Самое «укомплектованное» предложение в стране: ресторан GRONO стоит прямо посреди 11-гектарного виноградника, рядом — номера, апартамент и деревянные домики с джакузи.",
   dinner:"Restauracja GRONO на территории винодельни — вт–пт и вс 12:00–20:00, сб 12:00–23:00, пн выходной. Дополнительно: пикниковые корзины среди лозы — региональная и «виноградная» по 150 zł, завтрак-корзина 48 zł с человека.",
   sleep:"Номера на 2–4 человека, апартамент с общей кухней, вилла Maria Anna и летние домики с джакузи. Завтрак — по запросу.",
   extra:[["Дегустация","40–50 zł/чел. (2 вина, экскурсия, закуски или 4 вина с сырной доской)"],["Бронь ужина","звонком, столы в сезон разбирают заранее"],["Ближайший город","Rzeszów, ~25 км"]],
-  tel:[["+48 665 667 700","приём, бронь номеров"],["+48 790 590 626","дегустации"],["+48 603 113 114","мероприятия"]],
-  mail:"kontakt@winnicapodkarpacie.pl",
-  web:["winnicapodkarpacie.pl","https://winnicapodkarpacie.pl/"],
-  book:[["Своя система бронирования","https://winnica-maria-anna.bed-booking.com","bed-booking.com — номера и домики"],["Booking.com","https://www.booking.com/hotel/pl/winnica-maria-anna-wyzne1.html","отзывы и свободные даты"]]},
-
- {n:2,name:"Pałac Mierzęcin Wellness & Wine Resort",region:"Любушское",place:"Mierzęcin k. Dobiegniewa",lat:52.9556,lon:15.8361,dine:"full",stay:"hotel",price:"360–620 zł/ночь",pnote:"Прайс отеля: одноместный от 360 zł, двухместные 490–620 zł, Delux во дворце от 560 zł. Пакеты с ужином — 580–875 zł.",
-  addr:"Mierzęcin 1, 66-520 Dobiegniew",
+  tel:["приём, бронь номеров","дегустации","мероприятия"],
+  book:[["Своя система бронирования","bed-booking.com — номера и домики"],["Booking.com","отзывы и свободные даты"]]},
+ {region:"Любушское",price:"360–620 zł/ночь",pnote:"Прайс отеля: одноместный от 360 zł, двухместные 490–620 zł, Delux во дворце от 560 zł. Пакеты с ужином — 580–875 zł.",
   lede:"Старейший и самый крупный винный курорт Польши: дворец XIX века, третий по величине виноградник страны, конюшня и Grape SPA с процедурами на винограде.",
   dinner:"Две ресторанные площадки — Restauracja Destylarnia (в бывшей винокурне) и Restauracja Pałacowa, плюс формат Chef's Palace Table, бильярд-паб и гриль-беседка. Столик в Destylarni бронируется отдельным телефоном.",
   sleep:"Около 150 мест во дворце и исторических постройках усадьбы. SPA, бассейн, японский сад, конный клуб.",
   extra:[["Виноградник","собственный, известен рислингами"],["SPA","Grape SPA, процедуры на винограде"],["Ближайший город","Gorzów Wlkp. ~50 км, Poznań ~150 км"]],
-  tel:[["+48 95 71 31 500","ресепшн / бронь"],["+48 95 71 31 630","бронь столика в Destylarni"],["+48 691 728 090","винодельня и дегустации"]],
-  mail:"recepcja@palacmierzecin.pl",
-  web:["palacmierzecin.pl","https://www.palacmierzecin.pl/"],
-  book:[["Booking.com","https://www.booking.com/hotel/pl/paaac-mierzacin-wellnes-amp-wine-resort.html","цены и наличие мест"]]},
-
- {n:3,name:"Poziom 511 + Winnica Białe Skały",region:"Силезия",place:"Podzamcze / Ogrodzieniec",lat:50.4525,lon:19.5525,dine:"full",stay:"hotel",price:"от 671 zł/ночь",pnote:"Google Hotels, декабрь 2026: от 671 zł за ночь. На Booking.com двухместный с завтраком — около 775 zł, на Expedia 856–908 zł. Пакет «2 ночи с завтраками» — примерно 750 zł с человека.",
-  addr:"ul. Bonerów 33, 42-440 Podzamcze k. Ogrodzieńca",
+  tel:["ресепшн / бронь","бронь столика в Destylarni","винодельня и дегустации"],
+  book:[["Booking.com","цены и наличие мест"]]},
+ {region:"Силезия",price:"от 671 zł/ночь",pnote:"Google Hotels, декабрь 2026: от 671 zł за ночь. На Booking.com двухместный с завтраком — около 775 zł, на Expedia 856–908 zł. Пакет «2 ночи с завтраками» — примерно 750 zł с человека.",
   lede:"Четырёхзвёздочный отель, врезанный в известняковую скалу у подножия замка Огродзенец, а по соседнему склону поднимается Białe Skały — самый высоко расположенный виноградник Юры.",
   dinner:"Restauracja 511 в отеле (региональная кухня) и Wine Bar Białe Skały с видом на лозу — там же камерные ужины и вечерние мероприятия. По выходным — дегустации и винные пикники на винограднике.",
   sleep:"Отель Poziom 511 Jura Wellness Hotel & SPA 4*, спа-зона, бассейн. До замка Огродзенец — 3 минуты пешком.",
   extra:[["Виноградник","более 5 га на известняке: Pinot Noir, Chardonnay, Solaris, Johanniter, Muscaris, Regent, Cabernet Cortis"],["Ближайший город","Zawiercie ~12 км, Katowice ~50 км"]],
-  tel:[["+48 32 746 28 00","ресепшн, бронь номеров"],["+48 602 752 171","бронь и справки"],["+48 538 810 957","менеджер ресторана"]],
-  mail:"recepcja@poziom511.com",
-  web:["poziom511.pl","https://www.poziom511.pl/"],
-  book:[["Бронь на сайте отеля","https://www.poziom511.pl/","виджет «Sprawdź termin»"],["Винодельня Białe Skały","https://bialeskaly.pl/","дегустации и энотуризм"]]},
-
- {n:4,name:"Dwór Sanna",region:"Люблинское",place:"Wierzchowiska Drugie, gm. Modliborzyce",lat:50.7973,lon:22.4065,dine:"full",stay:"hotel",price:"от 280 zł/ночь",pnote:"Официальный прайс: номера Riesling/Regent/Johanniter/Muscaris/Seyval — 280–340 zł (зима/лето, будни), Solaris 350–400 zł, Chardonnay 650–800 zł, фольварк 150–180 zł. Доп. место 140 zł, животное 50 zł/ночь.",
-  addr:"Wierzchowiska Drugie 163, 23-310 Modliborzyce",
+  tel:["ресепшн, бронь номеров","бронь и справки","менеджер ресторана"],
+  book:[["Бронь на сайте отеля","виджет «Sprawdź termin»"],["Винодельня Białe Skały","дегустации и энотуризм"]]},
+ {region:"Люблинское",price:"от 280 zł/ночь",pnote:"Официальный прайс: номера Riesling/Regent/Johanniter/Muscaris/Seyval — 280–340 zł (зима/лето, будни), Solaris 350–400 zł, Chardonnay 650–800 zł, фольварк 150–180 zł. Доп. место 140 zł, животное 50 zł/ночь.",
   lede:"Отреставрированная усадьба XIX века в 30-гектарном парке с аллеей 200-летних грабов, биодинамическая ферма и виноградник — место, которое сами хозяева называют «польской Тосканой».",
   dinner:"Ресторан в усадьбе работает почти целиком на своих продуктах: овощи и фрукты из теплицы без химии, сыры, мясо с фермы. Отдельный формат — kolacja degustacyjna (дегустационный ужин) с винами. Винный погреб и бар.",
   sleep:"Бутик-отель 4* на 12 номеров в усадьбе плюс жильё в фольварке.",
   extra:[["Вино","натуральные вина Nizio Naturals — один из немногих таких проектов в Польше"],["Ближайший город","Lublin ~58 км, Kraśnik ~20 км"],["Важно","часто путают с Wąwolnicą — усадьба находится в Wierzchowiskach Drugich"]],
-  tel:[["+48 15 871 61 53","отель"],["+48 606 112 473","отель, мобильный"],["+48 795 461 820","ресторан"]],
-  mail:"recepcja@dworsanna.pl",
-  web:["dworsanna.pl","https://www.dworsanna.pl/"],
-  book:[["Booking.com","https://www.booking.com/hotel/pl/dwor-sanna.html","цены 2026 и наличие"],["Ресторан","https://www.dworsanna.pl/restauracja/","меню и дегустационные ужины"]]},
-
- {n:5,name:"Pałac Mała Wieś",region:"Мазовия",place:"Mała Wieś k. Belska Dużego",lat:51.806,lon:20.762,dine:"full",stay:"hotel",price:"от 824 zł/ночь",pnote:"Booking, октябрь 2026: свободные даты от 824–989 zł за ночь, 2 ночи от 1703 zł.",
-  addr:"Mała Wieś 40, 05-622 Belsk Duży",
+  tel:["отель","отель, мобильный","ресторан"],
+  book:[["Booking.com","цены 2026 и наличие"],["Ресторан","меню и дегустационные ужины"]]},
+ {region:"Мазовия",price:"от 824 zł/ночь",pnote:"Booking, октябрь 2026: свободные даты от 824–989 zł за ночь, 2 ночи от 1703 zł.",
   lede:"Классицистический дворец 1786 года в часе езды от Варшавы. Виноградник заложен в 2023 году и на 30 га уже крупнейший в Мазовии — самый удобный вариант, если вы стартуете из столицы.",
   dinner:"Restauracja Stara Wozownia в исторической каретной — два уровня, традиционная польская кухня. Отдельно — винный бар с большой подборкой вин, а также Nowa Oranżeria для мероприятий.",
   sleep:"Отель 4* в дворцовом корпусе и хозяйственных постройках, SPA, сауна, джакузи, французский и розовый сады, парк.",
   extra:[["Расстояние","~50 км от центра Варшавы"],["Виноградник","30 га, посадка 2023 — молодой, но крупнейший на Мазовии"],["Удобства","SPA, бассейн, тренажёрный зал, приём с животными"]],
-  tel:[["+48 782 40 40 40","ресепшн"],["+48 48 332 26 70","ресепшн, стационарный"]],
-  mail:"recepcja@palacmalawies.pl",
-  web:["palacmalawies.pl","https://palacmalawies.pl/"],
-  book:[["Бронь на сайте","https://palacmalawies.pl/","онлайн-бронирование номеров"],["Ресторан Stara Wozownia","https://palacmalawies.pl/galerie/restauracja","галерея и меню"]]},
-
- {n:6,name:"Winnica Turnau",region:"Западно-Поморское",place:"Baniewice k. Gryfina",lat:53.1167,lon:14.6333,dine:"part",stay:"rooms",price:"250–300 zł/ночь",pnote:"Прайс винодельни: одноместный 250 zł, двухместный 300 zł, весь дом 1500 zł, доп. место 150 zł. Сезон 15.04–31.10.",
-  addr:"Baniewice 115, 74-110 Baniewice",
+  tel:["ресепшн","ресепшн, стационарный"],
+  book:[["Бронь на сайте","онлайн-бронирование номеров"],["Ресторан Stara Wozownia","галерея и меню"]]},
+ {region:"Западно-Поморское",price:"250–300 zł/ночь",pnote:"Прайс винодельни: одноместный 250 zł, двухместный 300 zł, весь дом 1500 zł, доп. место 150 zł. Сезон 15.04–31.10.",
   lede:"Самая большая винодельня Польши — более 41 га лозы недалеко от немецкой границы. Гостевой дом на 12 человек стоит рядом с виноградником, а в главном здании есть зал для дегустационных ужинов.",
   dinner:"Полноценного ресторана нет. Есть трёхчасовая экскурсия с дегустацией 6 вин и ремесленными сырами — 150 zł с человека, по субботам 11:00–17:00. Дегустационные ужины и концерты в зале организуют по договорённости, чаще для групп от 20 человек (пн–пт).",
   sleep:"Дом гостевой: 5 номеров, до 12 человек, отреставрированное 100-летнее здание, кухни на каждом этаже, террасы, гриль. Сезон 15 апреля — 31 октября.",
   extra:[["Цены за ночь","двухместный 300 zł · одноместный 250 zł · весь дом 1500 zł · доп. место 150 zł"],["Логистика","до самой винодельни ~2 км, транспорт свой"],["Ближайший город","Szczecin ~40 км, Gryfino ~15 км"]],
-  tel:[["+48 91 307 91 31","общий, добавочный 2 — ночлег"]],
-  mail:"noclegi@winnicaturnau.pl",
-  web:["winnicaturnau.pl","https://www.winnicaturnau.pl/pl"],
-  book:[["Экскурсия с дегустацией","https://www.winnicaturnau.pl/pl/enoturystyka-zwiedzanie-winnicy-winnica-turnau-4","онлайн-календарь для индивидуальных гостей"]]},
-
- {n:7,name:"Winnica Płochockich",region:"Свентокшиское",place:"Daromin k. Sandomierza",lat:50.7444,lon:21.6353,dine:"part",stay:"rooms",price:"от 150 zł/ночь",pnote:"От 150 zł за двухместный номер. Ночлег сезонный, обычно май–август.",
-  addr:"Daromin 2, 27-612 Wilczyce",
+  tel:["общий, добавочный 2 — ночлег"],
+  book:[["Экскурсия с дегустацией","онлайн-календарь для индивидуальных гостей"]]},
+ {region:"Свентокшиское",price:"от 150 zł/ночь",pnote:"От 150 zł за двухместный номер. Ночлег сезонный, обычно май–август.",
   lede:"Семейная винодельня на Сандомирской возвышенности, известная винами в грузинских квеври. Тихий деревенский вариант в 20 км от Сандомира.",
   dinner:"Ресторана нет: есть дегустационный зал, дегустации с комментарием и гриль-зона для гостей. Ужин обсуждается заранее при бронировании — хозяева подскажут, что привезти или где поесть рядом.",
   sleep:"Четыре двухместных номера с ванными и апартамент на 4 человек. Общая кухня и гостиная, терраса с видом на виноградник. Ночлег сезонный — уточняйте даты.",
   extra:[["Особенность","вина из квеври — редкость для Польши"],["Ближайший город","Sandomierz ~20 км"],["Формат","ночлег обычно продают в связке с дегустацией"]],
-  tel:[["+48 504 012 189","Barbara Płochocka — бронь"]],
-  mail:"basia@winnicaplochockich.pl",
-  web:["winnicaplochockich.pl","https://winnicaplochockich.pl/"],
-  book:[["Страница ночлега","https://winnicaplochockich.pl/nocleg/","условия и описание номеров"],["Контакт","https://winnicaplochockich.pl/kontakt/","форма и телефон"]]},
-
- {n:8,name:"Winnica Jerzmanice Zdrój",region:"Нижняя Силезия",place:"Jerzmanice-Zdrój k. Złotoryi",lat:51.150,lon:15.902,dine:"part",stay:"house",price:"700 zł/ночь",pnote:"Slowhop: 700 zł за домик для двоих, каждый следующий гость +200 zł/ночь. Домик вмещает до 4 человек, завтрак и спа-зона включены в предложение.",
-  addr:"Jerzmanice Zdrój 78, 59-500 Złotoryja",
+  tel:["Barbara Płochocka — бронь"],
+  book:[["Страница ночлега","условия и описание номеров"],["Контакт","форма и телефон"]]},
+ {region:"Нижняя Силезия",price:"700 zł/ночь",pnote:"Slowhop: 700 zł за домик для двоих, каждый следующий гость +200 zł/ночь. Домик вмещает до 4 человек, завтрак и спа-зона включены в предложение.",
   lede:"Самый камерный вариант в подборке: один домик на двоих на вершине террасного виноградника в Качавских горах. Машину оставляют внизу, наверх идут пешком.",
   dinner:"Кухни ресторанного формата нет. Завтрак из локальных продуктов привозят к домику, есть сауна и баня. Ужин — самостоятельно или в Злоторые (~5 км).",
   sleep:"Домик на 2–4 человека с видом на террасы виноградника. Хозяйство органическое, в переходе на биодинамику.",
   extra:[["Размер","около 1 га, семейная винодельня с 2014 года"],["Внимание","официальный сайт winnicajerzmanice.pl временно не работает — бронируйте через Slowhop или по e-mail"],["Ближайший город","Złotoryja ~5 км, Legnica ~30 км"]],
-  tel:[],
-  mail:"info@winnicajerzmanice.pl",
-  web:["Slowhop — страница объекта","https://slowhop.com/pl/miejsca/3378-winnica-jerzmanice.html"],
-  book:[["Slowhop","https://slowhop.com/en/places/3378-winnica-jerzmanice.html","календарь, цены, онлайн-бронь"],["Facebook винодельни","https://www.facebook.com/p/WINNICA-JERZMANICE-ZDR%C3%93J-100063557804602/","актуальные новости и связь"]]},
-
- {n:9,name:"Winnica Witaj Słońce",region:"Лодзинское",place:"Mnich Probostwo k. Kutna",lat:52.230,lon:19.520,dine:"part",stay:"rooms",price:"по запросу",pnote:"Прайс не публикуется: цену называют по телефону или в ответ на форму бронирования на сайте. Дом можно снять целиком.",
-  addr:"Mnich Probostwo 1, 99-322 Oporów",
+  tel:[],web:"Slowhop — страница объекта",
+  book:[["Slowhop","календарь, цены, онлайн-бронь"],["Facebook винодельни","актуальные новости и связь"]]},
+ {region:"Лодзинское",price:"по запросу",pnote:"Прайс не публикуется: цену называют по телефону или в ответ на форму бронирования на сайте. Дом можно снять целиком.",
   lede:"Винодельня, специализирующаяся на игристых по традиционному методу. Три номера с видом на лозу, до Лодзи — 80 км, доехать можно поездом.",
   dinner:"Дегустационный зал с кухонным блоком и террасой: хозяева готовят завтраки, ужин и застолье согласуются заранее. Есть кемпинг-площадка.",
   sleep:"Три номера на втором этаже с видом на виноградник: Solaris и Cabernet (2 чел. + доп. место) и Seyval (4 чел.). Дом можно снять целиком.",
   extra:[["Специализация","игристые вина классическим методом"],["Формат","хороший вариант для компании — дом на выкуп"],["Ближайший город","Kutno ~15 км, Łódź ~80 км"]],
-  tel:[["+48 665 381 430","Arek"],["+48 608 368 865","Sylwia"]],
-  mail:"witaj@winnicawitajslonce.pl",
-  web:["winnicawitajslonce.pl","http://winnicawitajslonce.pl/oferta/"],
-  book:[["Форма бронирования","https://winnicawitajslonce.pl/rezerwacje/","запрос на даты прямо на сайте"],["Номера и дом целиком","https://winnicawitajslonce.pl/pokoje/","Solaris, Cabernet, Seyval и аренда всего здания"]]},
-
- {n:10,name:"Winnica Sztukówka",region:"Подкарпатье",place:"Glinik Średni k. Frysztaka",lat:49.867,lon:21.617,dine:"self",stay:"house",price:"от 459 zł/ночь",pnote:"Booking, октябрь 2026: от 918 zł за 2 ночи (≈459 zł/ночь). Завтрак à la carte на месте, есть вегетарианские и веганские варианты.",lp:{dx:-17,dy:-1,a:"end"},
-  addr:"Glinik Średni 153, 38-130 Frysztak",
+  tel:["Arek","Sylwia"],
+  book:[["Форма бронирования","запрос на даты прямо на сайте"],["Номера и дом целиком","Solaris, Cabernet, Seyval и аренда всего здания"]]},
+ {region:"Подкарпатье",price:"от 459 zł/ночь",pnote:"Booking, октябрь 2026: от 918 zł за 2 ночи (≈459 zł/ночь). Завтрак à la carte на месте, есть вегетарианские и веганские варианты.",
   lede:"Два мансардных апартамента над винодельней и 30-метровая крытая терраса, с которой в ясный день видны Бескиды и Бещады.",
   dinner:"Ресторана нет, но завтрак готовят на месте à la carte (есть вегетарианские и веганские варианты). Плюс гриль-беседка, кухни в апартаментах и дегустации в винодельне. Ближайшие рестораны — во Фрыштаке и Стшижуве.",
   sleep:"Два независимых апартамента: «Prestiż» 36 м² на 2 человек и «Luksus» 99 м² на 4. Есть огороженная площадка для кемперов и палаток.",
   extra:[["Виноградник","3,6 га, заложен в 2009 году"],["Дегустация","70 zł с человека, для гостей с ночлегом 60 zł"],["Прокат","велосипеды 50 zł/день"],["Ближайший город","Rzeszów ~50 км"]],
-  tel:[["+48 605 539 422","Leszek Szczęch, владелец и винодел"]],
-  mail:"winnica@sztukowka.pl",
-  web:["sztukowka.pl","https://www.sztukowka.pl/"],
-  book:[["Booking.com","https://www.booking.com/hotel/pl/winnica-sztukowka.html","цены 2026 и онлайн-бронь"],["Энотуризм на сайте","https://www.sztukowka.pl/enoturystyka","дегустации и экскурсии"]]},
-
- {n:11,name:"Winnica Dwie Granice",region:"Подкарпатье",place:"Przysieki k. Jasła",lat:49.795,lon:21.423,dine:"self",stay:"rooms",price:"по датам",pnote:"Цены на Nocowanie.pl показываются после выбора дат. В наличии два двухместных номера Premium и три четырёхместных апартамента с двумя спальнями.",
-  addr:"Przysieki 412, 38-207 Przysieki",
+  tel:["Leszek Szczęch, владелец и винодел"],
+  book:[["Booking.com","цены 2026 и онлайн-бронь"],["Энотуризм на сайте","дегустации и экскурсии"]]},
+ {region:"Подкарпатье",price:"по датам",pnote:"Цены на Nocowanie.pl показываются после выбора дат. В наличии два двухместных номера Premium и три четырёхместных апартамента с двумя спальнями.",
   lede:"Семейная винодельня на 3 га с собственным погребом и залом для дегустаций, где вина комментирует сомелье. Пять единиц размещения — заметно больше, чем у соседей по масштабу.",
   dinner:"Отдельного ресторана нет: в распоряжении гостей общая полностью оборудованная кухня со столовой. Дегустация с сомелье в зале — основной «вечерний» формат.",
   sleep:"Два двухместных номера и три четырёхместных апартамента (по две спальни каждый), все на этаже, с кондиционером, ТВ и интернетом.",
   extra:[["Виноградник","3 га, экскурсия по погребу и винодельне"],["Ближайший город","Jasło ~8 км, Rzeszów ~60 км"],["Кому подойдёт","компаниям и семьям — апартаменты с двумя спальнями"]],
-  tel:[["+48 606 787 623","бронь и дегустации"]],
-  mail:"",
-  web:["winnicadwiegranice.pl","https://www.winnicadwiegranice.pl/enoturystyka/"],
-  book:[["Nocowanie.pl","https://www.nocowanie.pl/rezerwuj/1505571-agroturystyka-winnica-dwe-granice/","онлайн-запрос на бронь"],["Энотуризм на сайте","https://www.winnicadwiegranice.pl/enoturystyka/","дегустации и ночлег"]]},
-
- {n:12,name:"Winnica Chronów",region:"Малопольша",place:"Chronów, gm. Nowy Wiśnicz",lat:49.877,lon:20.496,dine:"self",stay:"house",price:"200–280 zł/ночь",pnote:"Прайс винодельни: 200 zł за двоих, 240 zł за троих, 280 zł за четверых. Уборка 60 zł за визит, животное 20 zł/сутки.",lp:{dx:0,dy:17,a:"middle"},
-  addr:"Chronów, gm. Nowy Wiśnicz, powiat bocheński",
+  tel:["бронь и дегустации"],
+  book:[["Nocowanie.pl","онлайн-запрос на бронь"],["Энотуризм на сайте","дегустации и ночлег"]]},
+ {region:"Малопольша",price:"200–280 zł/ночь",pnote:"Прайс винодельни: 200 zł за двоих, 240 zł за троих, 280 zł за четверых. Уборка 60 zł за визит, животное 20 zł/сутки.",
   lede:"Точка на Малопольском винном маршруте, равноудалённая от Кракова, Тарнува и Нового Сонча — по 50 км до каждого. Два самостоятельных апартамента прямо у лозы.",
   dinner:"Ресторана нет: общий павильон с грилем, кострище и кухни в апартаментах. Дегустации — на винодельне, ужин готовите сами или едете в Nowy Wiśnicz.",
   sleep:"Два апартамента на 2–4 человека: «Parter» 30 м² с выходом на террасу и «Poddasze» 60 м² с гостиной и кухонным уголком.",
   extra:[["Цены за ночь","2 чел. 200 zł · 3 чел. 240 zł · 4 чел. 280 zł"],["Доплаты","уборка 60 zł за визит · животные 20 zł/сутки по согласованию"],["Для детей","небольшая игровая площадка на территории"]],
   tel:[],
-  mail:"winnica.chronow@gmail.com",
-  web:["winnicachronow.pl","https://www.winnicachronow.pl/"],
-  book:[["Ночлег на сайте","https://www.winnicachronow.pl/nocleg-na-winnicy-ma%C5%82opolska","описание апартаментов и цены"],["Дегустации","https://www.winnicachronow.pl/degustacja-win-ma%C5%82opolska","энотуризм"]]}
-];
+  book:[["Ночлег на сайте","описание апартаментов и цены"],["Дегустации","энотуризм"]]}
+],
+pl:[
+ {region:"Podkarpackie",price:"od 305 zł/noc",pnote:"Booking, 9–11.10.2026: pokój dwuosobowy 610 zł za 2 noce (≈305 zł/noc), domek 798 zł za 2 noce (≈400 zł), willa-apartament 90 m² 1774 zł za 2 noce (≈887 zł).",
+  lede:"Najbardziej kompletna oferta w kraju: restauracja GRONO stoi pośrodku 11-hektarowej winnicy, obok pokoje, apartament i drewniane domki z jacuzzi.",
+  dinner:"Restauracja GRONO na terenie winnicy — wt–pt i nd 12:00–20:00, sob 12:00–23:00, pon nieczynne. Dodatkowo kosze piknikowe wśród winorośli — regionalny i „winogronowy” po 150 zł, kosz śniadaniowy 48 zł od osoby.",
+  sleep:"Pokoje 2–4-osobowe, apartament ze wspólną kuchnią, willa Maria Anna i letnie domki z jacuzzi. Śniadanie na życzenie.",
+  extra:[["Degustacja","40–50 zł/os. (2 wina, zwiedzanie, przekąski lub 4 wina z deską serów)"],["Rezerwacja kolacji","telefonicznie, w sezonie stoliki rozchodzą się wcześniej"],["Najbliższe miasto","Rzeszów, ~25 km"]],
+  tel:["recepcja, rezerwacja pokoi","degustacje","wydarzenia"],
+  book:[["Własny system rezerwacji","bed-booking.com — pokoje i domki"],["Booking.com","opinie i wolne terminy"]]},
+ {region:"Lubuskie",price:"360–620 zł/noc",pnote:"Cennik hotelu: jednoosobowy od 360 zł, dwuosobowe 490–620 zł, Delux w pałacu od 560 zł. Pakiety z kolacją — 580–875 zł.",
+  lede:"Najstarszy i największy winny resort w Polsce: XIX-wieczny pałac, trzecia co do wielkości winnica w kraju, stajnia i Grape SPA z zabiegami na bazie winogron.",
+  dinner:"Dwie restauracje — Restauracja Destylarnia (w dawnej gorzelni) i Restauracja Pałacowa, do tego Chef's Palace Table, pub bilardowy i altana grillowa. Stolik w Destylarni rezerwuje się pod osobnym numerem.",
+  sleep:"Około 150 miejsc w pałacu i zabytkowych budynkach folwarku. SPA, basen, ogród japoński, klub jeździecki.",
+  extra:[["Winnica","własna, znana z rieslingów"],["SPA","Grape SPA, zabiegi na bazie winogron"],["Najbliższe miasto","Gorzów Wlkp. ~50 km, Poznań ~150 km"]],
+  tel:["recepcja / rezerwacje","rezerwacja stolika w Destylarni","winnica i degustacje"],
+  book:[["Booking.com","ceny i dostępność"]]},
+ {region:"Śląskie",price:"od 671 zł/noc",pnote:"Google Hotels, grudzień 2026: od 671 zł za noc. Na Booking.com pokój dwuosobowy ze śniadaniem — ok. 775 zł, na Expedia 856–908 zł. Pakiet „2 noce ze śniadaniami” — ok. 750 zł od osoby.",
+  lede:"Czterogwiazdkowy hotel wkuty w wapienną skałę u stóp zamku Ogrodzieniec, a na sąsiednim zboczu Białe Skały — najwyżej położona winnica Jury.",
+  dinner:"Restauracja 511 w hotelu (kuchnia regionalna) i Wine Bar Białe Skały z widokiem na winorośl — tam też kameralne kolacje i wieczorne wydarzenia. W weekendy degustacje i winne pikniki w winnicy.",
+  sleep:"Hotel Poziom 511 Jura Wellness Hotel & SPA 4*, strefa spa, basen. Do zamku Ogrodzieniec 3 minuty pieszo.",
+  extra:[["Winnica","ponad 5 ha na wapieniu: Pinot Noir, Chardonnay, Solaris, Johanniter, Muscaris, Regent, Cabernet Cortis"],["Najbliższe miasto","Zawiercie ~12 km, Katowice ~50 km"]],
+  tel:["recepcja, rezerwacja pokoi","rezerwacje i informacje","kierownik restauracji"],
+  book:[["Rezerwacja na stronie hotelu","widżet „Sprawdź termin”"],["Winnica Białe Skały","degustacje i enoturystyka"]]},
+ {region:"Lubelskie",price:"od 280 zł/noc",pnote:"Oficjalny cennik: pokoje Riesling/Regent/Johanniter/Muscaris/Seyval — 280–340 zł (zima/lato, dni powszednie), Solaris 350–400 zł, Chardonnay 650–800 zł, folwark 150–180 zł. Dostawka 140 zł, zwierzę 50 zł/noc.",
+  lede:"Odrestaurowany XIX-wieczny dwór w 30-hektarowym parku z aleją 200-letnich grabów, biodynamiczne gospodarstwo i winnica — miejsce, które gospodarze nazywają „polską Toskanią”.",
+  dinner:"Restauracja we dworze opiera się niemal wyłącznie na własnych produktach: warzywa i owoce ze szklarni bez chemii, sery, mięso z gospodarstwa. Osobny format — kolacja degustacyjna z winami. Piwnica win i bar.",
+  sleep:"Butikowy hotel 4* z 12 pokojami we dworze oraz noclegi w folwarku.",
+  extra:[["Wino","wina naturalne Nizio Naturals — jeden z nielicznych takich projektów w Polsce"],["Najbliższe miasto","Lublin ~58 km, Kraśnik ~20 km"],["Uwaga","często mylony z Wąwolnicą — dwór leży w Wierzchowiskach Drugich"]],
+  tel:["hotel","hotel, komórka","restauracja"],
+  book:[["Booking.com","ceny 2026 i dostępność"],["Restauracja","menu i kolacje degustacyjne"]]},
+ {region:"Mazowieckie",price:"od 824 zł/noc",pnote:"Booking, październik 2026: wolne terminy od 824–989 zł za noc, 2 noce od 1703 zł.",
+  lede:"Klasycystyczny pałac z 1786 roku, godzinę jazdy od Warszawy. Winnicę założono w 2023 roku i z 30 ha jest już największa na Mazowszu — najwygodniejsza opcja, jeśli startujesz ze stolicy.",
+  dinner:"Restauracja Stara Wozownia w zabytkowej wozowni — dwa poziomy, tradycyjna kuchnia polska. Osobno winiarnia z dużym wyborem win oraz Nowa Oranżeria na wydarzenia.",
+  sleep:"Hotel 4* w pałacu i budynkach gospodarczych, SPA, sauna, jacuzzi, ogród francuski i różany, park.",
+  extra:[["Odległość","~50 km od centrum Warszawy"],["Winnica","30 ha, nasadzenia z 2023 — młoda, ale największa na Mazowszu"],["Udogodnienia","SPA, basen, siłownia, zwierzęta mile widziane"]],
+  tel:["recepcja","recepcja, stacjonarny"],
+  book:[["Rezerwacja na stronie","rezerwacja pokoi online"],["Restauracja Stara Wozownia","galeria i menu"]]},
+ {region:"Zachodniopomorskie",price:"250–300 zł/noc",pnote:"Cennik winnicy: jednoosobowy 250 zł, dwuosobowy 300 zł, cały dom 1500 zł, dostawka 150 zł. Sezon 15.04–31.10.",
+  lede:"Największa winnica w Polsce — ponad 41 ha winorośli niedaleko granicy z Niemcami. Dom gościnny na 12 osób stoi przy winnicy, a w głównym budynku jest sala na kolacje degustacyjne.",
+  dinner:"Pełnej restauracji nie ma. Jest trzygodzinne zwiedzanie z degustacją 6 win i serami rzemieślniczymi — 150 zł od osoby, w soboty 11:00–17:00. Kolacje degustacyjne i koncerty w sali organizowane po uzgodnieniu, zwykle dla grup od 20 osób (pon–pt).",
+  sleep:"Dom gościnny: 5 pokoi, do 12 osób, odrestaurowany 100-letni budynek, kuchnie na każdym piętrze, tarasy, grill. Sezon od 15 kwietnia do 31 października.",
+  extra:[["Ceny za noc","dwuosobowy 300 zł · jednoosobowy 250 zł · cały dom 1500 zł · dostawka 150 zł"],["Dojazd","do samej winnicy ~2 km, potrzebny własny transport"],["Najbliższe miasto","Szczecin ~40 km, Gryfino ~15 km"]],
+  tel:["ogólny, wewnętrzny 2 — noclegi"],
+  book:[["Zwiedzanie z degustacją","kalendarz online dla gości indywidualnych"]]},
+ {region:"Świętokrzyskie",price:"od 150 zł/noc",pnote:"Od 150 zł za pokój dwuosobowy. Noclegi sezonowe, zwykle maj–sierpień.",
+  lede:"Rodzinna winnica na Wyżynie Sandomierskiej, znana z win z gruzińskich kwewri. Spokojna wiejska opcja 20 km od Sandomierza.",
+  dinner:"Restauracji nie ma: jest sala degustacyjna, degustacje z komentarzem i strefa grillowa dla gości. Kolację ustala się przy rezerwacji — gospodarze podpowiedzą, co przywieźć lub gdzie zjeść w okolicy.",
+  sleep:"Cztery pokoje dwuosobowe z łazienkami i apartament dla 4 osób. Wspólna kuchnia i salon, taras z widokiem na winnicę. Noclegi sezonowe — sprawdź terminy.",
+  extra:[["Wyróżnik","wina z kwewri — rzadkość w Polsce"],["Najbliższe miasto","Sandomierz ~20 km"],["Format","nocleg zwykle sprzedawany w pakiecie z degustacją"]],
+  tel:["Barbara Płochocka — rezerwacje"],
+  book:[["Strona noclegów","warunki i opis pokoi"],["Kontakt","formularz i telefon"]]},
+ {region:"Dolnośląskie",price:"700 zł/noc",pnote:"Slowhop: 700 zł za domek dla dwojga, każdy kolejny gość +200 zł/noc. Domek mieści do 4 osób, śniadanie i strefa spa w cenie.",
+  lede:"Najbardziej kameralna opcja w zestawieniu: jeden domek dla dwojga na szczycie tarasowej winnicy w Górach Kaczawskich. Samochód zostaje na dole, na górę idzie się pieszo.",
+  dinner:"Kuchni restauracyjnej nie ma. Śniadanie z lokalnych produktów przywożą pod domek, jest sauna i bania. Kolacja we własnym zakresie lub w Złotoryi (~5 km).",
+  sleep:"Domek dla 2–4 osób z widokiem na tarasy winnicy. Gospodarstwo ekologiczne, w trakcie przejścia na biodynamikę.",
+  extra:[["Wielkość","ok. 1 ha, rodzinna winnica od 2014 roku"],["Uwaga","oficjalna strona winnicajerzmanice.pl chwilowo nie działa — rezerwuj przez Slowhop lub e-mail"],["Najbliższe miasto","Złotoryja ~5 km, Legnica ~30 km"]],
+  tel:[],web:"Slowhop — strona obiektu",
+  book:[["Slowhop","kalendarz, ceny, rezerwacja online"],["Facebook winnicy","aktualności i kontakt"]]},
+ {region:"Łódzkie",price:"na zapytanie",pnote:"Cennik nie jest publikowany: cenę podają telefonicznie lub w odpowiedzi na formularz rezerwacji. Dom można wynająć w całości.",
+  lede:"Winnica specjalizująca się w winach musujących metodą tradycyjną. Trzy pokoje z widokiem na winorośl, do Łodzi 80 km, można dojechać pociągiem.",
+  dinner:"Sala degustacyjna z aneksem kuchennym i tarasem: gospodarze przygotowują śniadania, kolację i biesiadę ustala się wcześniej. Jest pole kempingowe.",
+  sleep:"Trzy pokoje na piętrze z widokiem na winnicę: Solaris i Cabernet (2 os. + dostawka) oraz Seyval (4 os.). Dom można wynająć w całości.",
+  extra:[["Specjalność","wina musujące metodą klasyczną"],["Format","dobra opcja dla grupy — dom na wyłączność"],["Najbliższe miasto","Kutno ~15 km, Łódź ~80 km"]],
+  tel:["Arek","Sylwia"],
+  book:[["Formularz rezerwacji","zapytanie o termin na stronie"],["Pokoje i cały dom","Solaris, Cabernet, Seyval i wynajem całego budynku"]]},
+ {region:"Podkarpackie",price:"od 459 zł/noc",pnote:"Booking, październik 2026: od 918 zł za 2 noce (≈459 zł/noc). Śniadanie à la carte na miejscu, są opcje wegetariańskie i wegańskie.",
+  lede:"Dwa apartamenty na poddaszu nad winiarnią i 30-metrowy zadaszony taras, z którego przy dobrej pogodzie widać Beskidy i Bieszczady.",
+  dinner:"Restauracji nie ma, ale śniadanie przygotowują na miejscu à la carte (są opcje wegetariańskie i wegańskie). Do tego altana grillowa, kuchnie w apartamentach i degustacje w winiarni. Najbliższe restauracje — we Frysztaku i Strzyżowie.",
+  sleep:"Dwa niezależne apartamenty: „Prestiż” 36 m² dla 2 osób i „Luksus” 99 m² dla 4. Jest ogrodzone miejsce dla kamperów i namiotów.",
+  extra:[["Winnica","3,6 ha, założona w 2009 roku"],["Degustacja","70 zł od osoby, dla gości z noclegiem 60 zł"],["Wypożyczalnia","rowery 50 zł/dzień"],["Najbliższe miasto","Rzeszów ~50 km"]],
+  tel:["Leszek Szczęch, właściciel i winiarz"],
+  book:[["Booking.com","ceny 2026 i rezerwacja online"],["Enoturystyka na stronie","degustacje i zwiedzanie"]]},
+ {region:"Podkarpackie",price:"zależnie od terminu",pnote:"Ceny na Nocowanie.pl pojawiają się po wybraniu dat. Do dyspozycji dwa pokoje dwuosobowe Premium i trzy czteroosobowe apartamenty z dwiema sypialniami.",
+  lede:"Rodzinna winnica o powierzchni 3 ha z własną piwnicą i salą degustacyjną, w której wina omawia sommelier. Pięć jednostek noclegowych — wyraźnie więcej niż u podobnych sąsiadów.",
+  dinner:"Osobnej restauracji nie ma: goście mają do dyspozycji wspólną, w pełni wyposażoną kuchnię z jadalnią. Degustacja z sommelierem w sali to główny „wieczorny” format.",
+  sleep:"Dwa pokoje dwuosobowe i trzy czteroosobowe apartamenty (po dwie sypialnie), wszystkie na piętrze, z klimatyzacją, TV i internetem.",
+  extra:[["Winnica","3 ha, zwiedzanie piwnicy i winiarni"],["Najbliższe miasto","Jasło ~8 km, Rzeszów ~60 km"],["Dla kogo","grupy i rodziny — apartamenty z dwiema sypialniami"]],
+  tel:["rezerwacje i degustacje"],
+  book:[["Nocowanie.pl","zapytanie o rezerwację online"],["Enoturystyka na stronie","degustacje i noclegi"]]},
+ {region:"Małopolskie",price:"200–280 zł/noc",pnote:"Cennik winnicy: 200 zł za 2 osoby, 240 zł za 3, 280 zł za 4. Sprzątanie 60 zł za pobyt, zwierzę 20 zł/doba.",
+  lede:"Punkt na Małopolskim Szlaku Winnym, w równej odległości od Krakowa, Tarnowa i Nowego Sącza — po 50 km do każdego. Dwa samodzielne apartamenty tuż przy winorośli.",
+  dinner:"Restauracji nie ma: wspólna wiata z grillem, miejsce na ognisko i kuchnie w apartamentach. Degustacje w winnicy, kolację przygotowujesz sam albo jedziesz do Nowego Wiśnicza.",
+  sleep:"Dwa apartamenty dla 2–4 osób: „Parter” 30 m² z wyjściem na taras i „Poddasze” 60 m² z salonem i aneksem kuchennym.",
+  extra:[["Ceny za noc","2 os. 200 zł · 3 os. 240 zł · 4 os. 280 zł"],["Dopłaty","sprzątanie 60 zł za pobyt · zwierzęta 20 zł/doba po uzgodnieniu"],["Dla dzieci","mały plac zabaw na terenie"]],
+  tel:[],
+  book:[["Nocleg na stronie","opis apartamentów i ceny"],["Degustacje","enoturystyka"]]}
+],
+en:[
+ {region:"Subcarpathia",price:"from 305 zł/night",pnote:"Booking, 9–11 Oct 2026: double room 610 zł for 2 nights (≈305 zł/night), cottage 798 zł for 2 nights (≈400 zł), 90 m² villa apartment 1774 zł for 2 nights (≈887 zł).",
+  lede:"The most complete offer in the country: the GRONO restaurant sits right in the middle of an 11-hectare vineyard, next to rooms, an apartment and wooden cottages with hot tubs.",
+  dinner:"Restauracja GRONO on the estate — Tue–Fri and Sun 12:00–20:00, Sat 12:00–23:00, closed Mon. Also picnic baskets among the vines — regional and “grape” baskets at 150 zł each, breakfast basket 48 zł per person.",
+  sleep:"Rooms for 2–4 people, an apartment with a shared kitchen, the Maria Anna villa and summer cottages with hot tubs. Breakfast on request.",
+  extra:[["Tasting","40–50 zł/person (2 wines, tour, snacks, or 4 wines with a cheese board)"],["Dinner booking","by phone; tables go early in season"],["Nearest city","Rzeszów, ~25 km"]],
+  tel:["reception, room bookings","tastings","events"],
+  book:[["Own booking system","bed-booking.com — rooms and cottages"],["Booking.com","reviews and availability"]]},
+ {region:"Lubusz",price:"360–620 zł/night",pnote:"Hotel rates: single from 360 zł, doubles 490–620 zł, Delux in the palace from 560 zł. Dinner packages 580–875 zł.",
+  lede:"Poland's oldest and largest wine resort: a 19th-century palace, the country's third-largest vineyard, a stable and Grape SPA with grape-based treatments.",
+  dinner:"Two restaurants — Restauracja Destylarnia (in a former distillery) and Restauracja Pałacowa, plus the Chef's Palace Table format, a billiards pub and a grill pavilion. Tables at Destylarnia are booked on a separate number.",
+  sleep:"About 150 beds in the palace and the historic estate buildings. SPA, pool, Japanese garden, riding club.",
+  extra:[["Vineyard","own, known for its Rieslings"],["SPA","Grape SPA, grape-based treatments"],["Nearest city","Gorzów Wlkp. ~50 km, Poznań ~150 km"]],
+  tel:["reception / bookings","Destylarnia table bookings","winery and tastings"],
+  book:[["Booking.com","prices and availability"]]},
+ {region:"Silesia",price:"from 671 zł/night",pnote:"Google Hotels, December 2026: from 671 zł per night. Double with breakfast on Booking.com about 775 zł, on Expedia 856–908 zł. “2 nights with breakfast” package about 750 zł per person.",
+  lede:"A four-star hotel cut into a limestone rock at the foot of Ogrodzieniec Castle, with Białe Skały — the highest vineyard of the Jura — climbing the neighbouring slope.",
+  dinner:"Restauracja 511 in the hotel (regional cuisine) and the Białe Skały Wine Bar overlooking the vines, which also hosts intimate dinners and evening events. Weekend tastings and wine picnics in the vineyard.",
+  sleep:"Poziom 511 Jura Wellness Hotel & SPA 4*, spa area, pool. Ogrodzieniec Castle is a 3-minute walk.",
+  extra:[["Vineyard","over 5 ha on limestone: Pinot Noir, Chardonnay, Solaris, Johanniter, Muscaris, Regent, Cabernet Cortis"],["Nearest city","Zawiercie ~12 km, Katowice ~50 km"]],
+  tel:["reception, room bookings","bookings and enquiries","restaurant manager"],
+  book:[["Book on the hotel website","“Sprawdź termin” widget"],["Białe Skały winery","tastings and wine tourism"]]},
+ {region:"Lublin",price:"from 280 zł/night",pnote:"Official rates: Riesling/Regent/Johanniter/Muscaris/Seyval rooms 280–340 zł (winter/summer, weekdays), Solaris 350–400 zł, Chardonnay 650–800 zł, farmstead 150–180 zł. Extra bed 140 zł, pet 50 zł/night.",
+  lede:"A restored 19th-century manor in a 30-hectare park with an avenue of 200-year-old hornbeams, a biodynamic farm and a vineyard — the owners call it “the Polish Tuscany”.",
+  dinner:"The manor restaurant runs almost entirely on its own produce: chemical-free vegetables and fruit from the greenhouse, cheese and meat from the farm. A separate format is the kolacja degustacyjna — a tasting dinner paired with wines. Wine cellar and bar.",
+  sleep:"A 4* boutique hotel with 12 rooms in the manor, plus rooms in the farmstead.",
+  extra:[["Wine","Nizio Naturals natural wines — one of the few such projects in Poland"],["Nearest city","Lublin ~58 km, Kraśnik ~20 km"],["Note","often confused with Wąwolnica — the manor is in Wierzchowiska Drugie"]],
+  tel:["hotel","hotel, mobile","restaurant"],
+  book:[["Booking.com","2026 prices and availability"],["Restaurant","menu and tasting dinners"]]},
+ {region:"Masovia",price:"from 824 zł/night",pnote:"Booking, October 2026: available dates from 824–989 zł per night, 2 nights from 1703 zł.",
+  lede:"A classicist palace from 1786, an hour's drive from Warsaw. The vineyard was planted in 2023 and at 30 ha is already the largest in Masovia — the easiest choice if you start from the capital.",
+  dinner:"Restauracja Stara Wozownia in the historic carriage house — two floors, traditional Polish cuisine. Separately, a wine bar with a large selection, plus Nowa Oranżeria for events.",
+  sleep:"A 4* hotel in the palace and its outbuildings, SPA, sauna, hot tub, French and rose gardens, park.",
+  extra:[["Distance","~50 km from central Warsaw"],["Vineyard","30 ha, planted 2023 — young, but the largest in Masovia"],["Amenities","SPA, pool, gym, pets welcome"]],
+  tel:["reception","reception, landline"],
+  book:[["Book on the website","online room booking"],["Stara Wozownia restaurant","gallery and menu"]]},
+ {region:"West Pomerania",price:"250–300 zł/night",pnote:"Winery rates: single 250 zł, double 300 zł, whole house 1500 zł, extra bed 150 zł. Season 15 Apr – 31 Oct.",
+  lede:"Poland's largest winery — over 41 ha of vines near the German border. A 12-person guesthouse stands next to the vineyard, and the main building has a hall for tasting dinners.",
+  dinner:"There is no full restaurant. A three-hour tour with a tasting of 6 wines and craft cheeses costs 150 zł per person, Saturdays 11:00–17:00. Tasting dinners and concerts in the hall are arranged on request, usually for groups of 20+ (Mon–Fri).",
+  sleep:"Guesthouse: 5 rooms, up to 12 people, a restored 100-year-old building, kitchens on every floor, terraces, grill. Season 15 April – 31 October.",
+  extra:[["Prices per night","double 300 zł · single 250 zł · whole house 1500 zł · extra bed 150 zł"],["Getting there","~2 km to the winery itself, own transport needed"],["Nearest city","Szczecin ~40 km, Gryfino ~15 km"]],
+  tel:["main line, ext. 2 — accommodation"],
+  book:[["Tour with tasting","online calendar for individual guests"]]},
+ {region:"Holy Cross",price:"from 150 zł/night",pnote:"From 150 zł for a double room. Seasonal accommodation, usually May–August.",
+  lede:"A family winery on the Sandomierz Upland, known for wines made in Georgian qvevri. A quiet countryside option 20 km from Sandomierz.",
+  dinner:"No restaurant: there is a tasting room, guided tastings and a grill area for guests. Dinner is arranged in advance when booking — the hosts will tell you what to bring or where to eat nearby.",
+  sleep:"Four double rooms with bathrooms and an apartment for 4. Shared kitchen and lounge, terrace overlooking the vineyard. Seasonal — check dates.",
+  extra:[["Highlight","qvevri wines — rare in Poland"],["Nearest city","Sandomierz ~20 km"],["Format","stays are usually sold together with a tasting"]],
+  tel:["Barbara Płochocka — bookings"],
+  book:[["Accommodation page","terms and room descriptions"],["Contact","form and phone"]]},
+ {region:"Lower Silesia",price:"700 zł/night",pnote:"Slowhop: 700 zł for a cottage for two, each additional guest +200 zł/night. The cottage sleeps up to 4; breakfast and the spa area are included.",
+  lede:"The most intimate option on the list: a single cottage for two at the top of a terraced vineyard in the Kaczawskie Mountains. You leave the car below and walk up.",
+  dinner:"No restaurant kitchen. A breakfast of local produce is brought to the cottage; there is a sauna and a hot tub. Dinner is self-arranged or in Złotoryja (~5 km).",
+  sleep:"A cottage for 2–4 people overlooking the vineyard terraces. The farm is organic and converting to biodynamics.",
+  extra:[["Size","about 1 ha, family winery since 2014"],["Note","the official website winnicajerzmanice.pl is temporarily down — book via Slowhop or e-mail"],["Nearest city","Złotoryja ~5 km, Legnica ~30 km"]],
+  tel:[],web:"Slowhop — property page",
+  book:[["Slowhop","calendar, prices, online booking"],["Winery on Facebook","news and contact"]]},
+ {region:"Łódź",price:"on request",pnote:"Prices are not published: you get a quote by phone or in reply to the booking form on the website. The whole house can be rented.",
+  lede:"A winery specialising in traditional-method sparkling wines. Three rooms overlooking the vines; Łódź is 80 km away and reachable by train.",
+  dinner:"A tasting room with a kitchenette and terrace: the hosts make breakfast, while dinner and feasts are arranged in advance. There is a campsite.",
+  sleep:"Three rooms upstairs overlooking the vineyard: Solaris and Cabernet (2 people + extra bed) and Seyval (4 people). The whole house can be rented.",
+  extra:[["Speciality","traditional-method sparkling wines"],["Format","good for groups — the house can be booked exclusively"],["Nearest city","Kutno ~15 km, Łódź ~80 km"]],
+  tel:["Arek","Sylwia"],
+  book:[["Booking form","date enquiry on the website"],["Rooms and the whole house","Solaris, Cabernet, Seyval and whole-building rental"]]},
+ {region:"Subcarpathia",price:"from 459 zł/night",pnote:"Booking, October 2026: from 918 zł for 2 nights (≈459 zł/night). À la carte breakfast on site, with vegetarian and vegan options.",
+  lede:"Two attic apartments above the winery and a 30-metre covered terrace with views of the Beskids and Bieszczady on a clear day.",
+  dinner:"No restaurant, but breakfast is cooked on site à la carte (vegetarian and vegan options). Plus a grill pavilion, kitchens in the apartments and tastings in the winery. The nearest restaurants are in Frysztak and Strzyżów.",
+  sleep:"Two self-contained apartments: “Prestiż”, 36 m² for 2, and “Luksus”, 99 m² for 4. There is a fenced area for campervans and tents.",
+  extra:[["Vineyard","3.6 ha, planted in 2009"],["Tasting","70 zł per person, 60 zł for staying guests"],["Rental","bikes 50 zł/day"],["Nearest city","Rzeszów ~50 km"]],
+  tel:["Leszek Szczęch, owner and winemaker"],
+  book:[["Booking.com","2026 prices and online booking"],["Wine tourism on the website","tastings and tours"]]},
+ {region:"Subcarpathia",price:"depends on dates",pnote:"Prices on Nocowanie.pl appear once you pick dates. There are two Premium double rooms and three four-person apartments with two bedrooms.",
+  lede:"A 3-hectare family winery with its own cellar and a tasting hall where a sommelier presents the wines. Five units — noticeably more than similar-sized neighbours.",
+  dinner:"No separate restaurant: guests share a fully equipped kitchen with a dining room. A sommelier-led tasting in the hall is the main evening format.",
+  sleep:"Two double rooms and three four-person apartments (two bedrooms each), all upstairs, with air conditioning, TV and internet.",
+  extra:[["Vineyard","3 ha, cellar and winery tours"],["Nearest city","Jasło ~8 km, Rzeszów ~60 km"],["Good for","groups and families — two-bedroom apartments"]],
+  tel:["bookings and tastings"],
+  book:[["Nocowanie.pl","online booking enquiry"],["Wine tourism on the website","tastings and accommodation"]]},
+ {region:"Lesser Poland",price:"200–280 zł/night",pnote:"Winery rates: 200 zł for two, 240 zł for three, 280 zł for four. Cleaning 60 zł per stay, pet 20 zł/day.",
+  lede:"A stop on the Lesser Poland Wine Trail, equidistant from Kraków, Tarnów and Nowy Sącz — 50 km to each. Two self-contained apartments right by the vines.",
+  dinner:"No restaurant: a shared pavilion with a grill, a fire pit and kitchens in the apartments. Tastings at the winery; you cook dinner yourself or drive to Nowy Wiśnicz.",
+  sleep:"Two apartments for 2–4 people: “Parter”, 30 m² with terrace access, and “Poddasze”, 60 m² with a living room and kitchenette.",
+  extra:[["Prices per night","2 people 200 zł · 3 people 240 zł · 4 people 280 zł"],["Extras","cleaning 60 zł per stay · pets 20 zł/day by arrangement"],["For kids","a small playground on site"]],
+  tel:[],
+  book:[["Accommodation on the website","apartment descriptions and prices"],["Tastings","wine tourism"]]}
+]
+};
+
+/* строки интерфейса */
+var UI = {
+ru:{title:"Винодельни Польши с ужином и ночлегом — карта",h1:"Ужин и ночлег",h1b:"на винограднике",
+  tagline:"12 польских виноделен, где можно поужинать и остаться на ночь",filters:"Фильтры",dine:"Ужин",stay:"Ночлег",
+  d_full:"Ресторан на месте",d_part:"Ужин по заказу",d_self:"Своя кухня / гриль",
+  s_hotel:"Отель на месте",s_rooms:"Комнаты у винодела",s_house:"Домик / апартамент",
+  map:"Карта Польши с винодельнями",zin:"Приблизить",zout:"Отдалить",zresetA:"Показать всю Польшу",zreset:"Вся Польша",
+  hint:"Колесо — масштаб · перетаскивание — сдвиг · клик по точке — детали",grab:"Открыть или закрыть список",
+  toMap:"← К карте",toAll:"← Все места",all:"Все виноградники",allSub:"Нажмите точку на карте или строку в списке",
+  shown:"Показано {v} из {t}",count:"{v} из {t} мест",peek:"Список · {v} ↑",tip:"Нажмите — контакты и бронирование",
+  sDinner:"Ужин",sSleep:"Ночлег",sFacts:"Коротко",addr:"Адрес",sBook:"Забронировать",sContact:"Связаться",site:"Сайт",gmaps:"Открыть в Google Maps",
+  noTel:"Телефон объект публично не указывает — пишите на e-mail или бронируйте через площадку выше.",lang:"Язык",
+  foot:"Данные собраны 8 сентября 2026 из сайтов объектов и площадок бронирования. Цены на Booking проверены на даты 9–11 октября 2026 (2 гостя) и меняются в зависимости от сезона и дат — подтверждайте перед поездкой. Точки на карте поставлены по адресам с точностью до населённого пункта; для навигации пользуйтесь ссылкой «Открыть в Google Maps» в карточке."},
+pl:{title:"Winnice w Polsce z noclegiem i kolacją — mapa",h1:"Kolacja i nocleg",h1b:"w winnicy",
+  tagline:"12 polskich winnic, w których zjesz kolację i zostaniesz na noc",filters:"Filtry",dine:"Kolacja",stay:"Nocleg",
+  d_full:"Restauracja na miejscu",d_part:"Kolacja na zamówienie",d_self:"Własna kuchnia / grill",
+  s_hotel:"Hotel na miejscu",s_rooms:"Pokoje u winiarza",s_house:"Domek / apartament",
+  map:"Mapa Polski z winnicami",zin:"Przybliż",zout:"Oddal",zresetA:"Pokaż całą Polskę",zreset:"Cała Polska",
+  hint:"Kółko — skala · przeciąganie — przesunięcie · klik w punkt — szczegóły",grab:"Otwórz lub zamknij listę",
+  toMap:"← Do mapy",toAll:"← Wszystkie miejsca",all:"Wszystkie winnice",allSub:"Kliknij punkt na mapie lub wiersz na liście",
+  shown:"Pokazano {v} z {t}",count:"{v} z {t} miejsc",peek:"Lista · {v} ↑",tip:"Kliknij — kontakt i rezerwacja",
+  sDinner:"Kolacja",sSleep:"Nocleg",sFacts:"W skrócie",addr:"Adres",sBook:"Rezerwacja",sContact:"Kontakt",site:"Strona",gmaps:"Otwórz w Mapach Google",
+  noTel:"Obiekt nie podaje publicznie telefonu — napisz e-mail lub zarezerwuj przez serwis powyżej.",lang:"Język",
+  foot:"Dane zebrane 8 września 2026 ze stron obiektów i serwisów rezerwacyjnych. Ceny na Booking sprawdzone dla terminu 9–11 października 2026 (2 osoby) i zmieniają się zależnie od sezonu i dat — potwierdź przed wyjazdem. Punkty na mapie postawiono według adresów z dokładnością do miejscowości; do nawigacji użyj linku „Otwórz w Mapach Google” w karcie obiektu."},
+en:{title:"Polish wineries with dinner and an overnight stay — map",h1:"Dinner and a night",h1b:"at a vineyard",
+  tagline:"12 Polish wineries where you can have dinner and stay the night",filters:"Filters",dine:"Dinner",stay:"Stay",
+  d_full:"On-site restaurant",d_part:"Dinner on request",d_self:"Self-catering / grill",
+  s_hotel:"On-site hotel",s_rooms:"Rooms at the winery",s_house:"Cottage / apartment",
+  map:"Map of Poland with wineries",zin:"Zoom in",zout:"Zoom out",zresetA:"Show all of Poland",zreset:"All of Poland",
+  hint:"Scroll — zoom · drag — pan · click a pin — details",grab:"Open or close the list",
+  toMap:"← To the map",toAll:"← All places",all:"All wineries",allSub:"Click a pin on the map or a row in the list",
+  shown:"Showing {v} of {t}",count:"{v} of {t} places",peek:"List · {v} ↑",tip:"Click for contacts and booking",
+  sDinner:"Dinner",sSleep:"Stay",sFacts:"At a glance",addr:"Address",sBook:"Book",sContact:"Contact",site:"Website",gmaps:"Open in Google Maps",
+  noTel:"The property does not list a public phone number — e-mail them or book via the platform above.",lang:"Language",
+  foot:"Data collected on 8 September 2026 from property websites and booking platforms. Booking.com prices were checked for 9–11 October 2026 (2 guests) and vary by season and dates — confirm before you travel. Map pins are placed by address to town-level accuracy; for navigation use the “Open in Google Maps” link in each card."}
+};
+var LANGS=["pl","en","ru"];
+function plural(l,v){
+  if(l==="en") return v===1?"place":"places";
+  var m10=v%10, m100=v%100;
+  if(l==="ru") return m10===1&&m100!==11?"место":(m10>=2&&m10<=4&&(m100<12||m100>14)?"места":"мест");
+  return v===1?"miejsce":(m10>=2&&m10<=4&&(m100<12||m100>14)?"miejsca":"miejsc");
+}
+function detectLang(){
+  var m=location.pathname.match(/\/(pl|en|ru)(\/|$)/);
+  if(m) return m[1];
+  var saved=loadLang();
+  return saved||"en";
+}
+function loadLang(){try{var v=localStorage.getItem("winnice-lang");return LANGS.indexOf(v)>-1?v:null}catch(e){return null}}
+function saveLang(l){try{localStorage.setItem("winnice-lang",l)}catch(e){}}
+var LANG=detectLang();
+function t(k,v,tot){
+  var s=UI[LANG][k];
+  if(v!==undefined) s=s.replace("{v}",k==="peek"?v+" "+plural(LANG,v):v).replace("{t}",tot);
+  return s;
+}
+function tx(p){return TX[LANG][p.n-1]}
 
 var DINE = {
-  full:{label:"Ресторан на месте",cls:"d-full",color:"#2F7D5B"},
-  part:{label:"Ужин по заказу",cls:"d-part",color:"#B8862B"},
-  self:{label:"Своя кухня / гриль",cls:"d-self",color:"#8892A8"}
+  full:{cls:"d-full",color:"#2F7D5B"},
+  part:{cls:"d-part",color:"#B8862B"},
+  self:{cls:"d-self",color:"#8892A8"}
 };
+function dineLabel(k){return UI[LANG]["d_"+k]}
+function stayLabel(k){return UI[LANG]["s_"+k]}
 
 /* ============ ГЕОГРАФИЯ ============ */
 var BORDER=[[53.92,14.24],[53.66,14.28],[53.42,14.55],[53.25,14.49],[52.85,14.42],[52.59,14.64],[52.35,14.56],[52.10,14.70],[51.95,14.72],[51.75,14.72],[51.54,14.73],[51.36,14.95],[51.15,15.00],[50.98,14.98],[50.86,14.82],[50.90,15.02],[50.80,15.28],[50.78,15.55],[50.68,15.75],[50.72,16.02],[50.60,16.10],[50.50,16.20],[50.44,16.24],[50.32,16.32],[50.40,16.55],[50.25,16.65],[50.15,16.75],[50.28,17.00],[50.20,17.20],[50.31,17.38],[50.22,17.60],[50.10,17.75],[50.24,17.90],[49.98,18.15],[49.92,18.40],[49.75,18.63],[49.60,18.85],[49.52,19.03],[49.40,19.20],[49.53,19.45],[49.42,19.65],[49.18,19.83],[49.28,20.00],[49.40,20.10],[49.35,20.30],[49.45,20.50],[49.38,20.72],[49.38,20.95],[49.30,21.10],[49.42,21.40],[49.35,21.60],[49.25,21.80],[49.20,22.05],[49.05,22.55],[49.09,22.83],[49.22,22.70],[49.45,22.65],[49.83,22.83],[50.10,23.20],[50.40,23.60],[50.75,24.09],[50.85,24.15],[51.10,23.90],[51.30,23.65],[51.55,23.55],[51.80,23.65],[52.07,23.62],[52.35,23.40],[52.70,23.85],[52.90,23.50],[53.30,23.60],[53.60,23.50],[54.00,23.30],[54.35,23.00],[54.37,22.79],[54.32,22.30],[54.35,21.60],[54.30,20.90],[54.36,20.20],[54.40,19.70],[54.45,19.64],[54.35,19.40],[54.30,19.30],[54.14,19.40],[54.05,19.35],[54.15,19.10],[54.35,18.95],[54.40,18.65],[54.60,18.80],[54.75,18.80],[54.83,18.81],[54.75,18.55],[54.72,18.42],[54.83,18.30],[54.76,17.55],[54.60,17.00],[54.58,16.86],[54.40,16.20],[54.19,15.58],[54.15,15.20],[54.05,14.90],[54.03,14.75]];
@@ -744,7 +1016,7 @@ var PIN_D="M0 0 C-4.6 -7.4 -13 -14.6 -13 -23.2 A13 13 0 1 1 13 -23.2 C13 -14.6 4
 var pins=[];
 PLACES.forEach(function(p){
   var x=px(p.lon), y=py(p.lat), c=DINE[p.dine].color;
-  var g=el("g",{"class":"pin",tabindex:"0",role:"button","data-n":p.n,"aria-label":p.name+", "+p.place+" — "+DINE[p.dine].label});
+  var g=el("g",{"class":"pin",tabindex:"0",role:"button","data-n":p.n,"aria-label":p.name+", "+p.place+" — "+dineLabel(p.dine)});
   var inner=el("g",{});
   inner.appendChild(el("ellipse",{cx:0,cy:2.2,rx:8,ry:2.8,"class":"pinshadow"}));
   inner.appendChild(el("circle",{cx:0,cy:0,r:30,"class":"halo"}));
@@ -776,11 +1048,11 @@ mapwrap.appendChild(tipEl);
 var tipFor=null;
 function showTip(rec){
   if(window.matchMedia("(hover:none)").matches) return;
-  var p=rec.p, d=DINE[p.dine];
+  var p=rec.p, d=DINE[p.dine], x=tx(p);
   tipEl.innerHTML='<span class="t-name">'+esc(p.name)+'</span>'+
-    '<span class="t-meta"><span class="sq '+d.cls+'"></span>'+esc(d.label)+'</span>'+
-    '<span class="t-place">'+esc(p.place)+' · '+esc(p.region)+'</span>'+
-    '<span class="t-cta">Нажмите — контакты и бронирование</span>';
+    '<span class="t-meta"><span class="sq '+d.cls+'"></span>'+esc(dineLabel(p.dine))+'</span>'+
+    '<span class="t-place">'+esc(p.place)+' · '+esc(x.region)+'</span>'+
+    '<span class="t-cta">'+esc(t("tip"))+'</span>';
   tipFor=rec; positionTip(); tipEl.classList.add("on");
 }
 function positionTip(){
@@ -953,7 +1225,6 @@ var isMobile=function(){return window.matchMedia("(max-width:880px)").matches};
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function mapsUrl(p){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.name+", "+p.addr)}
 
-var STAY={hotel:"Отель на месте",rooms:"Комнаты у винодела",house:"Домик / апартамент"};
 function passes(p){return filters.dine[p.dine]&&filters.stay[p.stay]}
 function visible(){return PLACES.filter(passes)}
 
@@ -961,56 +1232,56 @@ function renderList(){
   var vis=visible();
   var h='<div class="list">';
   PLACES.forEach(function(p){
-    var d=DINE[p.dine], hide=passes(p)?"":" hidden";
+    var d=DINE[p.dine], x=tx(p), hide=passes(p)?"":" hidden";
     h+='<button class="lrow'+hide+'" data-n="'+p.n+'">'+
        '<span class="idx">'+(p.n<10?"0":"")+p.n+'</span>'+
        '<span><span class="nm">'+esc(p.name)+'</span>'+
-       '<span class="mt"><span class="sq '+d.cls+'"></span>'+esc(d.label)+' · '+esc(p.region)+'</span>'+
-       '<span class="mt"><span class="stay">'+esc(STAY[p.stay])+'</span></span></span>'+
-       '<span class="rowprice">'+esc(p.price)+'</span></button>';
+       '<span class="mt"><span class="sq '+d.cls+'"></span>'+esc(dineLabel(p.dine))+' · '+esc(x.region)+'</span>'+
+       '<span class="mt"><span class="stay">'+esc(stayLabel(p.stay))+'</span></span></span>'+
+       '<span class="rowprice">'+esc(x.price)+'</span></button>';
   });
-  h+='</div><div class="foot">Данные собраны 8 сентября 2026 из сайтов объектов и площадок бронирования. Цены на Booking проверены на даты 9–11 октября 2026 (2 гостя) и меняются в зависимости от сезона и дат — подтверждайте перед поездкой. Точки на карте поставлены по адресам с точностью до населённого пункта; для навигации пользуйтесь ссылкой «Открыть в Google Maps» в карточке.</div>';
+  h+='</div><div class="foot">'+esc(t("foot"))+'</div>';
   pbody.innerHTML=h;
   pbody.querySelectorAll(".lrow").forEach(function(b){
     b.addEventListener("click",function(){select(+b.dataset.n)});
     b.addEventListener("mouseenter",function(){hover(+b.dataset.n,true)});
     b.addEventListener("mouseleave",function(){hover(+b.dataset.n,false)});
   });
-  ptitle.textContent="Все виноградники";
-  psub.textContent=vis.length===PLACES.length?"Нажмите точку на карте или строку в списке":"Показано "+vis.length+" из "+PLACES.length;
-  countEl.textContent=vis.length+" из "+PLACES.length+" мест";
-  peek.textContent="Список · "+vis.length+" мест ↑";
+  ptitle.textContent=t("all");
+  psub.textContent=vis.length===PLACES.length?t("allSub"):t("shown",vis.length,PLACES.length);
+  setCounts(vis.length);
 }
 
 function renderDetail(p){
-  var d=DINE[p.dine];
+  var d=DINE[p.dine], x=tx(p);
   var h='<div class="detail"><div class="dhero">'+
-    '<div class="eyebrow"><span>'+(p.n<10?"0":"")+p.n+'</span><span>'+esc(p.region)+'</span>'+
-    '<span class="badge"><span class="sq '+d.cls+'"></span>'+esc(d.label)+'</span>'+
-    '<span class="badge">'+esc(STAY[p.stay])+'</span></div>'+
-    '<h2>'+esc(p.name)+'</h2><p class="lede">'+esc(p.lede)+'</p>'+
-    '<div class="pricetag"><span class="pv">'+esc(p.price)+'</span><span class="pn">'+esc(p.pnote)+'</span></div></div>';
+    '<div class="eyebrow"><span>'+(p.n<10?"0":"")+p.n+'</span><span>'+esc(x.region)+'</span>'+
+    '<span class="badge"><span class="sq '+d.cls+'"></span>'+esc(dineLabel(p.dine))+'</span>'+
+    '<span class="badge">'+esc(stayLabel(p.stay))+'</span></div>'+
+    '<h2>'+esc(p.name)+'</h2><p class="lede">'+esc(x.lede)+'</p>'+
+    '<div class="pricetag"><span class="pv">'+esc(x.price)+'</span><span class="pn">'+esc(x.pnote)+'</span></div></div>';
 
-  h+='<div class="sec"><h3>Ужин</h3><p>'+esc(p.dinner)+'</p></div>';
-  h+='<div class="sec"><h3>Ночлег</h3><p>'+esc(p.sleep)+'</p></div>';
+  h+='<div class="sec"><h3>'+esc(t("sDinner"))+'</h3><p>'+esc(x.dinner)+'</p></div>';
+  h+='<div class="sec"><h3>'+esc(t("sSleep"))+'</h3><p>'+esc(x.sleep)+'</p></div>';
 
-  h+='<div class="sec"><h3>Коротко</h3><dl class="facts">';
-  h+='<dt>Адрес</dt><dd>'+esc(p.addr)+'</dd>';
-  p.extra.forEach(function(e){h+='<dt>'+esc(e[0])+'</dt><dd class="'+(/\d/.test(e[1])&&e[1].indexOf("zł")>-1?"price":"")+'">'+esc(e[1])+'</dd>'});
+  h+='<div class="sec"><h3>'+esc(t("sFacts"))+'</h3><dl class="facts">';
+  h+='<dt>'+esc(t("addr"))+'</dt><dd>'+esc(p.addr)+'</dd>';
+  x.extra.forEach(function(e){h+='<dt>'+esc(e[0])+'</dt><dd class="'+(/\d/.test(e[1])&&e[1].indexOf("zł")>-1?"price":"")+'">'+esc(e[1])+'</dd>'});
   h+='</dl></div>';
 
-  h+='<div class="sec"><h3>Забронировать</h3><div class="links">';
-  p.book.forEach(function(b,i){
-    h+='<a class="btn'+(i===0?" primary":"")+'" href="'+esc(b[1])+'" target="_blank" rel="noopener">'+
-       '<span class="ico">'+(i===0?"◆":"↗")+'</span><span class="txt"><b>'+esc(b[0])+'</b><span>'+esc(b[2])+'</span></span></a>';
+  h+='<div class="sec"><h3>'+esc(t("sBook"))+'</h3><div class="links">';
+  p.book.forEach(function(url,i){
+    var b=x.book[i];
+    h+='<a class="btn'+(i===0?" primary":"")+'" href="'+esc(url)+'" target="_blank" rel="noopener">'+
+       '<span class="ico">'+(i===0?"◆":"↗")+'</span><span class="txt"><b>'+esc(b[0])+'</b><span>'+esc(b[1])+'</span></span></a>';
   });
   h+='</div></div>';
 
-  h+='<div class="sec"><h3>Связаться</h3><div class="links">';
+  h+='<div class="sec"><h3>'+esc(t("sContact"))+'</h3><div class="links">';
   if(p.tel.length){
-    p.tel.forEach(function(t){
-      h+='<a class="btn" href="tel:'+t[0].replace(/\s/g,"")+'"><span class="ico">☎</span>'+
-         '<span class="txt"><b class="tel">'+esc(t[0])+'</b><span>'+esc(t[1])+'</span></span></a>';
+    p.tel.forEach(function(num,i){
+      h+='<a class="btn" href="tel:'+num.replace(/\s/g,"")+'"><span class="ico">☎</span>'+
+         '<span class="txt"><b class="tel">'+esc(num)+'</b><span>'+esc(x.tel[i])+'</span></span></a>';
     });
   }
   if(p.mail){
@@ -1018,13 +1289,13 @@ function renderDetail(p){
        '<span class="txt"><b>E-mail</b><span>'+esc(p.mail)+'</span></span></a>';
   }
   h+='<a class="btn" href="'+esc(p.web[1])+'" target="_blank" rel="noopener"><span class="ico">▤</span>'+
-     '<span class="txt"><b>Сайт</b><span>'+esc(p.web[0])+'</span></span></a>';
+     '<span class="txt"><b>'+esc(t("site"))+'</b><span>'+esc(x.web||p.web[0])+'</span></span></a>';
   h+='<a class="btn" href="'+esc(mapsUrl(p))+'" target="_blank" rel="noopener"><span class="ico">◎</span>'+
-     '<span class="txt"><b>Открыть в Google Maps</b><span>'+esc(p.place)+'</span></span></a>';
+     '<span class="txt"><b>'+esc(t("gmaps"))+'</b><span>'+esc(p.place)+'</span></span></a>';
   h+='</div></div>';
 
   if(!p.tel.length){
-    h+='<div class="note">Телефон объект публично не указывает — пишите на e-mail или бронируйте через площадку выше.</div>';
+    h+='<div class="note">'+esc(t("noTel"))+'</div>';
   }
   h+='</div>';
   pbody.innerHTML=h;
@@ -1057,7 +1328,7 @@ function select(n){
   var top=pins.filter(function(x){return x.p.n===n})[0];
   gPins.appendChild(top.g);              /* активный маркер рисуем поверх соседей */
   renderDetail(p);
-  back.textContent=isMobile()?"← К карте":"← Все места";
+  setBack();
   var r=pins.filter(function(x){return x.p.n===n})[0];
   if(vb.w>HOME.w*0.9) flyTo(r.x,r.y,HOME.w*0.45); 
   openSheet(true);
@@ -1085,8 +1356,7 @@ document.querySelectorAll(".chip").forEach(function(c){
     else if(!active) renderList();
     else{
       var vis=visible();
-      countEl.textContent=vis.length+" из "+PLACES.length+" мест";
-      peek.textContent="Список · "+vis.length+" мест ↑";
+      setCounts(vis.length);
     }
   });
 });
@@ -1114,7 +1384,7 @@ document.addEventListener("keydown",function(e){
 });
 window.addEventListener("resize",function(){
   fitAspect(); clampVB(); applyVB();
-  if(active) back.textContent=isMobile()?"← К карте":"← Все места";
+  if(active) setBack();
   if(!isMobile()) document.body.classList.remove("sheet-open");
 });
 
@@ -1133,8 +1403,39 @@ if(window.ResizeObserver){
 }
 window.addEventListener("load",relayout);
 
+function setCounts(v){
+  countEl.textContent=t("count",v,PLACES.length);
+  peek.textContent=t("peek",v);
+}
+function setBack(){back.textContent=isMobile()?t("toMap"):t("toAll")}
+
+/* язык: статические подписи, переключатель, перерисовка панели */
+function applyLang(){
+  document.documentElement.lang=LANG;
+  document.title=t("title");
+  document.querySelectorAll("[data-i]").forEach(function(e){e.textContent=t(e.getAttribute("data-i"))});
+  document.querySelectorAll("[data-ia]").forEach(function(e){e.setAttribute("aria-label",t(e.getAttribute("data-ia")))});
+  document.querySelectorAll("#langs a").forEach(function(a){
+    if(a.dataset.lang===LANG) a.setAttribute("aria-current","true"); else a.removeAttribute("aria-current");
+  });
+  pins.forEach(function(r){r.g.setAttribute("aria-label",r.p.name+", "+r.p.place+" — "+dineLabel(r.p.dine))});
+  if(tipFor) showTip(tipFor);
+}
+/* на сайте у каждого языка свой адрес; внутри артефакта адреса нет — переключаем на месте */
+var onSite=/\/(pl|en|ru)(\/|$)/.test(location.pathname);
+document.querySelectorAll("#langs a").forEach(function(a){
+  a.addEventListener("click",function(e){
+    saveLang(a.dataset.lang);
+    if(onSite) return;
+    e.preventDefault();
+    LANG=a.dataset.lang; applyLang();
+    var cur=active&&PLACES.filter(function(x){return x.n===active})[0];
+    if(cur){renderDetail(cur);setBack();var vis=visible();setCounts(vis.length);} else renderList();
+  });
+});
+
 /* старт */
-relayout(); renderList();
+applyLang(); relayout(); renderList();
 requestAnimationFrame(relayout);
 })();
 </script>
