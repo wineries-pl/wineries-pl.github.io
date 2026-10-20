@@ -232,7 +232,6 @@ svg.map.zoomed .city:not(.big){opacity:1}
   box-shadow:var(--shadow);font-size:15px;line-height:1;
 }
 .iconbtn:hover{background:var(--surface-2)}
-.iconbtn.wide{width:auto;padding:0 11px;font-size:11.5px;font-family:var(--f-data);letter-spacing:.04em}
 .maphint{
   position:absolute;left:14px;bottom:14px;font-family:var(--f-data);font-size:10px;
   letter-spacing:.05em;color:var(--muted);text-transform:uppercase;pointer-events:none;
@@ -419,7 +418,7 @@ body.detail .backbtn{display:inline-flex}
     <div class="mapctl">
       <button class="iconbtn" id="zin" data-ia="zin">+</button>
       <button class="iconbtn" id="zout" data-ia="zout">−</button>
-      <button class="iconbtn wide" id="zreset" data-ia="zresetA" data-i="zreset"></button>
+      <button class="iconbtn" id="zreset" data-ia="zresetA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
     </div>
     <div class="maphint" data-i="hint"></div>
   </div>
@@ -789,7 +788,7 @@ ru:{title:"Винодельни Польши с ужином и ночлегом
   tagline:"12 польских виноделен, где можно поужинать и остаться на ночь",filters:"Фильтры",dine:"Ужин",stay:"Ночлег",
   d_full:"Ресторан на месте",d_part:"Ужин по заказу",d_self:"Своя кухня / гриль",
   s_hotel:"Отель на месте",s_rooms:"Комнаты у винодела",s_house:"Домик / апартамент",
-  map:"Карта Польши с винодельнями",zin:"Приблизить",zout:"Отдалить",zresetA:"Показать всю Польшу",zreset:"Вся Польша",
+  map:"Карта Польши с винодельнями",zin:"Приблизить",zout:"Отдалить",zresetA:"Показать всю Польшу",
   hint:"Колесо — масштаб · перетаскивание — сдвиг · клик по точке — детали",grab:"Открыть или закрыть список",
   toMap:"← К карте",toAll:"← Все места",all:"Все виноградники",allSub:"Нажмите точку на карте или строку в списке",
   shown:"Показано {v} из {t}",count:"{v} из {t} мест",peek:"Список · {v} ↑",tip:"Нажмите — контакты и бронирование",
@@ -800,7 +799,7 @@ pl:{title:"Winnice w Polsce z noclegiem i kolacją — mapa",h1:"Kolacja i nocle
   tagline:"12 polskich winnic, w których zjesz kolację i zostaniesz na noc",filters:"Filtry",dine:"Kolacja",stay:"Nocleg",
   d_full:"Restauracja na miejscu",d_part:"Kolacja na zamówienie",d_self:"Własna kuchnia / grill",
   s_hotel:"Hotel na miejscu",s_rooms:"Pokoje u winiarza",s_house:"Domek / apartament",
-  map:"Mapa Polski z winnicami",zin:"Przybliż",zout:"Oddal",zresetA:"Pokaż całą Polskę",zreset:"Cała Polska",
+  map:"Mapa Polski z winnicami",zin:"Przybliż",zout:"Oddal",zresetA:"Pokaż całą Polskę",
   hint:"Kółko — skala · przeciąganie — przesunięcie · klik w punkt — szczegóły",grab:"Otwórz lub zamknij listę",
   toMap:"← Do mapy",toAll:"← Wszystkie miejsca",all:"Wszystkie winnice",allSub:"Kliknij punkt na mapie lub wiersz na liście",
   shown:"Pokazano {v} z {t}",count:"{v} z {t} miejsc",peek:"Lista · {v} ↑",tip:"Kliknij — kontakt i rezerwacja",
@@ -811,7 +810,7 @@ en:{title:"Polish wineries with dinner and an overnight stay — map",h1:"Dinner
   tagline:"12 Polish wineries where you can have dinner and stay the night",filters:"Filters",dine:"Dinner",stay:"Stay",
   d_full:"On-site restaurant",d_part:"Dinner on request",d_self:"Self-catering / grill",
   s_hotel:"On-site hotel",s_rooms:"Rooms at the winery",s_house:"Cottage / apartment",
-  map:"Map of Poland with wineries",zin:"Zoom in",zout:"Zoom out",zresetA:"Show all of Poland",zreset:"All of Poland",
+  map:"Map of Poland with wineries",zin:"Zoom in",zout:"Zoom out",zresetA:"Show all of Poland",
   hint:"Scroll — zoom · drag — pan · click a pin — details",grab:"Open or close the list",
   toMap:"← To the map",toAll:"← All places",all:"All wineries",allSub:"Click a pin on the map or a row in the list",
   shown:"Showing {v} of {t}",count:"{v} of {t} places",peek:"List · {v} ↑",tip:"Click for contacts and booking",
@@ -1415,6 +1414,7 @@ function applyLang(){
   document.title=t("title");
   document.querySelectorAll("[data-i]").forEach(function(e){e.textContent=t(e.getAttribute("data-i"))});
   document.querySelectorAll("[data-ia]").forEach(function(e){e.setAttribute("aria-label",t(e.getAttribute("data-ia")))});
+  document.querySelectorAll(".iconbtn[data-ia]").forEach(function(e){e.title=t(e.getAttribute("data-ia"))});
   document.querySelectorAll("#langs a").forEach(function(a){
     if(a.dataset.lang===LANG) a.setAttribute("aria-current","true"); else a.removeAttribute("aria-current");
   });
