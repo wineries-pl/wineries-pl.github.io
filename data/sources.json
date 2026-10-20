@@ -1,9 +1,10 @@
 {
   "meta": {
     "collected": "2026-09-08",
+    "prices_updated": "2026-10-20",
     "price_probe": {
-      "checkin": "2026-10-09",
-      "checkout": "2026-10-11",
+      "checkin": "2026-11-20",
+      "checkout": "2026-11-22",
       "nights": 2,
       "adults": 2,
       "rooms": 1,
@@ -101,8 +102,8 @@
       "sources": [
         { "provider": "self", "type": "rooms", "url": "https://winnicaplochockich.pl/nocleg/", "fetch": "static", "status": "ok", "confidence": "medium", "verified": "2026-09-08" },
         { "provider": "self", "type": "contacts", "url": "https://winnicaplochockich.pl/kontakt/", "fetch": "static", "status": "ok", "confidence": "high", "provides": ["phone", "email", "address"], "verified": "2026-09-08" },
-        { "provider": "self", "type": "price", "value_seen": "от 150 zł за двухместный", "status": "ok", "confidence": "low",
-          "note": "Значение пришло из поисковой выдачи, не с самой страницы. При автоматизации проверить страницы /nocleg/ и /nocleg-w-winnicy/ напрямую" }
+        { "provider": "idobooking", "type": "price", "url": "https://client27261.idobooking.com/offers", "fetch": "browser", "value_seen": "от 250 zł за двухместный, от 460 zł за апартамент на 4", "status": "ok", "confidence": "high", "verified": "2026-10-20",
+          "note": "Страница offers движка бронирования: «Cena już od» у каждого номера. Прежнее «от 150 zł» из поисковой выдачи оказалось неверным" }
       ]
     },
     {
