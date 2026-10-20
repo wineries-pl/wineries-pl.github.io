@@ -4,6 +4,7 @@
 12 объектов: контакты, цены на ночлег, формат ужина, ссылки на бронирование.
 
 **Опубликованный артефакт:** https://claude.ai/code/artifact/a0fd8b95-7c3e-4bda-872e-c75ffe9a15cc
+**Сайт на GitHub Pages:** https://wineries-pl.github.io/
 
 ## Что внутри
 
@@ -58,6 +59,16 @@ node -e 'new Function(require("fs").readFileSync("artifact/winnice-polska.html",
 **Опубликовать заново** — из Claude Code: инструмент Artifact с тем же URL
 (`url: https://claude.ai/code/artifact/a0fd8b95-7c3e-4bda-872e-c75ffe9a15cc`),
 иначе создастся новая страница с новым адресом.
+
+**GitHub Pages** — репозиторий `wineries-pl/wineries-pl.github.io`. Каждый пуш в `main` запускает
+`.github/workflows/pages.yml`: он склеивает `site/head.html` + `artifact/winnice-polska.html` +
+`site/foot.html` в `index.html` и выкладывает его. Артефакт — фрагмент без `<head>` (claude.ai
+оборачивает его сам), поэтому `<head>` с charset, viewport и SEO-метатегами живёт в `site/head.html`.
+Править страницу — только в `artifact/winnice-polska.html`.
+
+Пуш идёт от пользователя `wineries-pl`: ключ `~/.ssh/github_winnice` подключается через
+`[includeIf "gitdir:~/a0s_github/winnice-pl/"]` → `~/.gitconfig-wineries-pl` (`core.sshCommand`
+и `user.*`), на обеих машинах.
 
 ## Поля объекта
 
